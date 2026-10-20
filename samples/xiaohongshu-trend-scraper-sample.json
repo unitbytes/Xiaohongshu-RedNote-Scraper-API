@@ -1,34 +1,70 @@
 [
   {
-    "itemType": "note",
-    "id": "64a7f30200000000160269ae",
-    "title": "早秋高级感通勤穿搭 | 5套胶囊衣橱指南",
-    "desc": "秋天第一波气质穿搭来啦！衬衫搭配西装裤，高级感拉满...",
-    "type": "normal",
-    "url": "https://www.xiaohongshu.com/explore/64a7f30200000000160269ae",
-    "coverUrl": "https://sns-webpic-qc.xhscdn.com/2026/10/cover.jpg",
-    "likedCount": 35200,
-    "collectedCount": 21800,
-    "commentCount": 1420,
-    "sharedCount": 2890,
-    "viralScore": 94000.0,
-    "engagementRate": 74.18,
-    "hasVideo": false,
-    "images": [
-      "https://sns-webpic-qc.xhscdn.com/2026/10/img1.jpg",
-      "https://sns-webpic-qc.xhscdn.com/2026/10/img2.jpg"
+    "itemType": "live_room",
+    "id": "570228761768989458",
+    "roomId": "570228761768989458",
+    "title": "早秋新款羊绒大衣专场 | 显瘦穿搭实测",
+    "type": "live",
+    "category": "Talent & Beauty (才艺颜值)",
+    "categoryId": "2",
+    "url": "https://www.xiaohongshu.com/livelist?channel_id=2&channel_type=web_live_list&room_id=570228761768989458",
+    "coverUrl": "https://sns-img-qc.xhscdn.com/1040g2jo31livecover",
+    "isLive": true,
+    "hasGoods": true,
+    "isPaidLive": false,
+    "viewersTotalUv": 18420,
+    "viewersConcurrent": 312,
+    "displayCount": 1480,
+    "roomPv": 18420,
+    "displayLikesCount": "9650",
+    "likedCount": 9650,
+    "commentCount": 6,
+    "hotValue": 42800,
+    "pinnedAnnouncement": "欢迎进直播间的姐妹！身高体重打在公屏帮大家选尺码~",
+    "buyerIntentKeywords": [
+      "能穿",
+      "什么码",
+      "尺码"
     ],
-    "creator": {
-      "id": "5a609866e8ac2b2fc9c2aa72",
-      "nickname": "什么周周",
-      "redId": "zhouzhoujh",
-      "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/1000/5a609866e8ac2b2fc9c2aa72.jpg"
+    "liveChatCount": 1,
+    "liveChatMessages": [
+      {
+        "id": "1761038291042",
+        "text": "165 105斤穿S还是M码？",
+        "originLanguage": "zh-CN",
+        "author": {
+          "id": "5f8a19c20000000001008a21",
+          "nickname": "小鹿乱撞",
+          "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31user.jpg",
+          "profileUrl": "https://www.xiaohongshu.com/user/profile/5f8a19c20000000001008a21"
+        },
+        "fansGroup": {
+          "groupName": "枝枝铁粉",
+          "fansLevel": 5,
+          "intimateName": "枝枝铁粉",
+          "activeFans": true,
+          "hasJoined": true
+        }
+      }
+    ],
+    "streamInfo": {
+      "flvUrl": "http://live-source-play.xhscdn.com/live/570228761768989458.flv",
+      "hlsUrl": "http://live-source-play.xhscdn.com/live/570228761768989458.m3u8",
+      "backupUrls": [],
+      "width": 1080,
+      "height": 1920,
+      "codec": "h264",
+      "maxBitrate": 0,
+      "quality": "HD"
     },
-    "tags": [
-      "OOTD",
-      "秋季穿搭",
-      "通勤穿搭"
-    ],
-    "scrapedAt": "2026-10-06T21:00:00.000Z"
+    "author": {
+      "id": "6808da1a000000000d014b51",
+      "nickname": "阿枝穿搭日记",
+      "redId": "azhi_ootd",
+      "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31.jpg",
+      "profileUrl": "https://www.xiaohongshu.com/user/profile/6808da1a000000000d014b51",
+      "followerCount": 128500
+    },
+    "scrapedAt": "2026-10-20T08:00:00.000Z"
   }
 ]

@@ -1,9 +1,9 @@
 {
-  "name": "Xiaohongshu (RedNote / 小红书) Scraper — Posts, Users & Comments — Automated Extraction to CSV & Sheets (UnitBytes)",
+  "name": "Xiaohongshu (RedNote / 小红书) Scraper: Trends, Live & KOLs — Automated Extraction to CSV & Sheets (UnitBytes)",
   "nodes": [
     {
       "parameters": {
-        "content": "## ⚡ Xiaohongshu (RedNote / 小红书) Scraper — Posts, Users & Comments — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.0022 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`itemType, id, title, desc, type`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-scraper/](https://unitbytes.com/actors/xiaohongshu-scraper/)",
+        "content": "## ⚡ Xiaohongshu (RedNote / 小红书) Scraper: Trends, Live & KOLs — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.0022 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`itemType, id, roomId, title, type`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-scraper/](https://unitbytes.com/actors/xiaohongshu-scraper/)",
         "height": 380,
         "width": 520,
         "color": 4
@@ -19,7 +19,7 @@
     },
     {
       "parameters": {
-        "content": "### 📊 Connect Your Destination\nThe **\"3. Normalize Output Fields\"** node outputs flat records (`itemType, id, title, desc, type`).\n\n- **Google Sheets / Airtable**: Connect a Google Sheets (`Append or Update Row`) node after Step 3.\n- **Slack / Telegram / Email Alerts**: Connect a Filter node + Slack node to alert your team on new deals or reviews.\n- **AI Agent / OpenAI**: Connect an OpenAI / LLM Chain node to summarize or classify extracted items.",
+        "content": "### 📊 Connect Your Destination\nThe **\"3. Normalize Output Fields\"** node outputs flat records (`itemType, id, roomId, title, type`).\n\n- **Google Sheets / Airtable**: Connect a Google Sheets (`Append or Update Row`) node after Step 3.\n- **Slack / Telegram / Email Alerts**: Connect a Filter node + Slack node to alert your team on new deals or reviews.\n- **AI Agent / OpenAI**: Connect an OpenAI / LLM Chain node to summarize or classify extracted items.",
         "height": 220,
         "width": 420,
         "color": 5
@@ -66,7 +66,7 @@
             {
               "id": "d641bdc9-b261-50e9-b42e-6477e0f98936",
               "name": "actorInput",
-              "value": "{\"startUrls\": [], \"keywords\": [\"OOTD\"], \"maxCreators\": 10, \"maxNotesPerCreator\": 30, \"maxItems\": 30, \"maxCommentsPerNote\": 0, \"maxSubCommentsPerComment\": 5, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
+              "value": "{\"mode\": \"trending\", \"channels\": [\"homefeed_recommend\"], \"maxItems\": 30, \"maxCreators\": 15, \"maxNotesPerCreator\": 15, \"maxCommentsPerNote\": 0, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
               "type": "object"
             }
           ]
@@ -128,15 +128,15 @@
               "type": "string"
             },
             {
-              "id": "609257b3-795c-5445-84b9-bd3c6f9702b9",
-              "name": "title",
-              "value": "={{ $json.title }}",
+              "id": "cda016a9-265e-5c83-a3fb-8b77e3c54367",
+              "name": "roomId",
+              "value": "={{ $json.roomId }}",
               "type": "string"
             },
             {
-              "id": "abd04e7c-bb56-54be-8655-f95f97982d48",
-              "name": "desc",
-              "value": "={{ $json.desc }}",
+              "id": "4ecebd75-9d17-580d-9032-dfbad353bb01",
+              "name": "title",
+              "value": "={{ $json.title }}",
               "type": "string"
             },
             {
@@ -146,9 +146,9 @@
               "type": "string"
             },
             {
-              "id": "ce47ec53-bd9e-5181-8973-62e23a7f71db",
-              "name": "url",
-              "value": "={{ $json.url }}",
+              "id": "5086f4b4-d358-5458-8809-c9b8d6ccdc05",
+              "name": "category",
+              "value": "={{ $json.category }}",
               "type": "string"
             }
           ]

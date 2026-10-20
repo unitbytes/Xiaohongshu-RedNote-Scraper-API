@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Xiaohongshu (RedNote / 小红书) User Profile & Creator Scraper — Official Python SDK Quickstart
+Xiaohongshu (RedNote / 小红书) Creator & KOL Leads Scraper — Official Python SDK Quickstart
 Actor: https://apify.com/unitbytes/xiaohongshu-rednote-profile-scraper?fpr=939u3w&fp_sid=gh_py
 Docs & Schema: https://unitbytes.com/actors/xiaohongshu-rednote-profile-scraper/
 n8n Template: https://unitbytes.com/n8n/workflows/xiaohongshu-rednote-profile-scraper-n8n-workflow.json
@@ -17,12 +17,8 @@ from apify_client import ApifyClient
 client = ApifyClient(os.getenv("APIFY_API_TOKEN", "YOUR_APIFY_API_TOKEN"))
 
 run_input = {
-    "creatorUrls": [
-        {
-            "url": "https://www.xiaohongshu.com/user/profile/58351cb382ec392d5f015f86"
-        }
-    ],
-    "userIds": [],
+    "mode": "creatorLeads",
+    "channels": ["homefeed.fashion_v3"],
     "maxCreators": 10,
     "maxNotesPerCreator": 15,
     "proxyConfiguration": {

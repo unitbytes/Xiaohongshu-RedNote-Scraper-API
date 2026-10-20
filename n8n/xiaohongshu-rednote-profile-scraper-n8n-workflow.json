@@ -1,9 +1,9 @@
 {
-  "name": "Xiaohongshu (RedNote / 小红书) User Profile & Creator Scraper — Automated Extraction to CSV & Sheets (UnitBytes)",
+  "name": "Xiaohongshu (RedNote / 小红书) Creator & KOL Leads Scraper — Automated Extraction to CSV & Sheets (UnitBytes)",
   "nodes": [
     {
       "parameters": {
-        "content": "## ⚡ Xiaohongshu (RedNote / 小红书) User Profile & Creator Scraper — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-rednote-profile-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.012 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-rednote-profile-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-profile-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`itemType, id, nickname, redId, bio`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-rednote-profile-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-profile-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-rednote-profile-scraper/](https://unitbytes.com/actors/xiaohongshu-rednote-profile-scraper/)",
+        "content": "## ⚡ Xiaohongshu (RedNote / 小红书) Creator & KOL Leads Scraper — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-rednote-profile-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.012 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-rednote-profile-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-profile-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`itemType, id, nickname, redId, bio`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-rednote-profile-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-profile-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-rednote-profile-scraper/](https://unitbytes.com/actors/xiaohongshu-rednote-profile-scraper/)",
         "height": 380,
         "width": 520,
         "color": 4
@@ -66,7 +66,7 @@
             {
               "id": "9b6888ef-2669-5c2f-a9ce-e1873daaa9df",
               "name": "actorInput",
-              "value": "{\"creatorUrls\": [{\"url\": \"https://www.xiaohongshu.com/user/profile/58351cb382ec392d5f015f86\"}], \"userIds\": [], \"maxCreators\": 10, \"maxNotesPerCreator\": 15, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
+              "value": "{\"mode\": \"creatorLeads\", \"channels\": [\"homefeed.fashion_v3\"], \"maxCreators\": 10, \"maxNotesPerCreator\": 15, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
               "type": "object"
             }
           ]

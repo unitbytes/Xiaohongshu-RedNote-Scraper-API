@@ -1,0 +1,253 @@
+{
+  "name": "Xiaohongshu (RedNote / 小红书) Live Stream & Commerce Scraper — Automated Extraction to CSV & Sheets (UnitBytes)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## ⚡ Xiaohongshu (RedNote / 小红书) Live Stream & Commerce Scraper — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-rednote-live-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.0079 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-rednote-live-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-live-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`itemType, type, id, roomId, title`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-rednote-live-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-live-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-rednote-live-scraper/](https://unitbytes.com/actors/xiaohongshu-rednote-live-scraper/)",
+        "height": 380,
+        "width": 520,
+        "color": 4
+      },
+      "id": "c2a36865-fae9-520c-a948-dfcd01b92653",
+      "name": "Sticky Note — Setup Guide",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        180,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### 📊 Connect Your Destination\nThe **\"3. Normalize Output Fields\"** node outputs flat records (`itemType, type, id, roomId, title`).\n\n- **Google Sheets / Airtable**: Connect a Google Sheets (`Append or Update Row`) node after Step 3.\n- **Slack / Telegram / Email Alerts**: Connect a Filter node + Slack node to alert your team on new deals or reviews.\n- **AI Agent / OpenAI**: Connect an OpenAI / LLM Chain node to summarize or classify extracted items.",
+        "height": 220,
+        "width": 420,
+        "color": 5
+      },
+      "id": "f32445c0-9715-54fa-b40a-733117df7e1c",
+      "name": "Sticky Note — Destinations",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        880,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "ec0b0875-5632-51ed-a907-265ee7a1a443",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        220,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a3715b8a-9022-5e45-b60a-063848b926ac",
+              "name": "apifyToken",
+              "value": "YOUR_APIFY_API_TOKEN",
+              "type": "string"
+            },
+            {
+              "id": "56eecb22-b55b-5a95-9784-ee243dcf536e",
+              "name": "actorInput",
+              "value": "{\"mode\": \"live\", \"liveCategories\": [\"0\"], \"maxItems\": 27, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "eac73bcb-0b40-527b-8aa8-b48f524c3c69",
+      "name": "1. Set Apify Token & Input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.apify.com/v2/acts/unitbytes~xiaohongshu-rednote-live-scraper/run-sync-get-dataset-items?token={{ $json.apifyToken }}&format=json&clean=true",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.actorInput) }}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "580a208c-dbec-5ea8-a653-091519b7bb5a",
+      "name": "2. Run UnitBytes (xiaohongshu-rednote-live-scraper)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        700,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "15a61482-c14f-5ece-ab2d-afffed8b919e",
+              "name": "itemType",
+              "value": "={{ $json.itemType }}",
+              "type": "string"
+            },
+            {
+              "id": "ff18d368-f08d-584a-8fe4-1ae7e907e3b9",
+              "name": "type",
+              "value": "={{ $json.type }}",
+              "type": "string"
+            },
+            {
+              "id": "ab49fcb9-7f7b-5064-8cba-565bfb6ff46e",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "e859adc9-3d7f-5b5b-a1af-dad18dc43102",
+              "name": "roomId",
+              "value": "={{ $json.roomId }}",
+              "type": "string"
+            },
+            {
+              "id": "caeff449-d874-5377-b8a3-0c6bddec4e7b",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "be459d0c-c4c4-5868-806f-c915b6104620",
+              "name": "nickname",
+              "value": "={{ $json.nickname }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "28af7600-425f-59d6-98a0-50c8c1e4b0f7",
+      "name": "3. Normalize Output Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        940,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "csv",
+        "options": {
+          "fileName": "xiaohongshu-rednote-live-scraper-dataset-export.csv"
+        }
+      },
+      "id": "37d1a653-cbc2-5c44-b2df-a291bbb52153",
+      "name": "4. Export to CSV File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1180,
+        480
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "1. Set Apify Token & Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Set Apify Token & Input": {
+      "main": [
+        [
+          {
+            "node": "2. Run UnitBytes (xiaohongshu-rednote-live-scraper)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Run UnitBytes (xiaohongshu-rednote-live-scraper)": {
+      "main": [
+        [
+          {
+            "node": "3. Normalize Output Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Normalize Output Fields": {
+      "main": [
+        [
+          {
+            "node": "4. Export to CSV File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": "030f9420-0ca8-5240-8fe8-208e287a8b19"
+  },
+  "tags": [
+    {
+      "name": "Web Scraping"
+    },
+    {
+      "name": "Apify"
+    },
+    {
+      "name": "UnitBytes"
+    },
+    {
+      "name": "APAC E-Commerce & Social"
+    }
+  ]
+}

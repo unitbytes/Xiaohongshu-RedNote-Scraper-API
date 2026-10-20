@@ -1,23 +1,46 @@
 [
   {
-    "id": "645a340a000000001500e209",
-    "noteId": "645a13770000000014027734",
-    "noteUrl": "https://www.xiaohongshu.com/explore/645a13770000000014027734",
-    "content": "鞋子跟样貌一样吸睛[飞吻R][飞吻R][飞吻R]",
-    "likeCount": 18,
-    "subCommentCount": 1,
-    "isSubComment": false,
-    "targetCommentId": "",
-    "parentCommentId": "",
-    "ipLocation": "马来西亚",
-    "createTime": 1683633162000,
-    "createdAt": "2023-05-09T11:52:42Z",
+    "itemType": "comment",
+    "isLiveChat": true,
+    "id": "1761038291042",
+    "noteId": "570228761768989458",
+    "roomId": "570228761768989458",
+    "roomTitle": "早秋新款羊绒大衣专场 | 显瘦穿搭实测",
+    "roomUrl": "https://www.xiaohongshu.com/livelist?channel_id=2&channel_type=web_live_list&room_id=570228761768989458",
+    "noteUrl": "https://www.xiaohongshu.com/livelist?channel_id=2&channel_type=web_live_list&room_id=570228761768989458",
+    "content": "165 105斤穿S还是M码？",
+    "originLanguage": "zh-CN",
     "author": {
-      "id": "628748700000000021022fa0",
-      "nickname": "双鱼座老女孩",
-      "avatar": "https://sns-avatar-qc.xhscdn.com/avatar/634e99245e86e230b011a111.jpg",
-      "profileUrl": "https://www.xiaohongshu.com/user/profile/628748700000000021022fa0",
-      "ipLocation": "马来西亚"
-    }
+      "id": "5f8a19c20000000001008a21",
+      "nickname": "小鹿乱撞",
+      "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31user.jpg",
+      "profileUrl": "https://www.xiaohongshu.com/user/profile/5f8a19c20000000001008a21"
+    },
+    "fansGroup": {
+      "groupName": "枝枝铁粉",
+      "fansLevel": 5,
+      "intimateName": "枝枝铁粉",
+      "activeFans": true,
+      "hasJoined": true
+    },
+    "liveHost": {
+      "id": "6808da1a000000000d014b51",
+      "nickname": "阿枝穿搭日记",
+      "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo31.jpg",
+      "profileUrl": "https://www.xiaohongshu.com/user/profile/6808da1a000000000d014b51"
+    },
+    "roomBuyerIntentKeywords": [
+      "能穿",
+      "什么码",
+      "尺码"
+    ],
+    "sentiment": {
+      "intent": "high_buyer_intent",
+      "isBuyerIntent": true,
+      "keywords": [
+        "什么码"
+      ]
+    },
+    "scrapedAt": "2026-10-20T08:00:00.000Z"
   }
 ]

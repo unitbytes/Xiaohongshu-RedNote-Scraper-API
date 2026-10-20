@@ -8,16 +8,27 @@
     "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/1000/5a609866e8ac2b2fc9c2aa72.jpg",
     "gender": "female",
     "ipLocation": "上海",
+    "locationDetails": {
+      "raw": "上海",
+      "country": "中国",
+      "province": "上海",
+      "city": "上海"
+    },
     "verification": {
       "badge": "Pro Creator",
       "isVerified": true,
+      "type": "profession",
       "desc": "小红书知名时尚博主"
     },
-    "followerCount": 285000,
+    "followerCount": 10000,
+    "followerCountFormatted": "10K+",
+    "followerCountDisplay": "1万+",
     "followingCount": 194,
     "totalLikesAndCollects": 1820000,
+    "likedCount": 1140000,
+    "collectedCount": 680000,
     "notesCount": 412,
     "profileUrl": "https://www.xiaohongshu.com/user/profile/5a609866e8ac2b2fc9c2aa72",
-    "scrapedAt": "2026-10-06T21:00:00.000Z"
+    "scrapedAt": "2026-10-20T08:00:00.000Z"
   }
 ]

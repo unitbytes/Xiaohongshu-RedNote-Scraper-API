@@ -1,0 +1,85 @@
+[
+  {
+    "itemType": "live_room",
+    "type": "live",
+    "id": "570505062122631608",
+    "roomId": "570505062122631608",
+    "title": "秋冬赴暖｜设计师质感衣橱专场",
+    "nickname": "十点梨穿搭记",
+    "profileUrl": "https://www.xiaohongshu.com/user/profile/5b331070e8cd614138e4a9e5",
+    "followerCount": 100000,
+    "likedCount": 5280,
+    "commentCount": 18,
+    "category": "All (全部)",
+    "categoryId": "0",
+    "url": "https://www.xiaohongshu.com/livelist?channel_id=0&channel_type=web_live_list&room_id=570505062122631608",
+    "coverUrl": "https://sns-img-qc.xhscdn.com/1040g2jo31...",
+    "isLive": true,
+    "hasGoods": true,
+    "isPaidLive": false,
+    "viewersTotalUv": 14820,
+    "viewersConcurrent": 412,
+    "displayCount": 412,
+    "roomPv": 14820,
+    "displayLikesCount": "5280",
+    "displayViewerCount": "1.4万观看",
+    "displayMemberCount": "412人在线",
+    "roomStatus": 2,
+    "monetizeType": 1,
+    "hotValue": 14820,
+    "pinnedAnnouncement": "新进直播间的姐妹点点关注，领30元粉丝券！",
+    "buyerIntentKeywords": [
+      "身高体重穿什么码",
+      "几号链接",
+      "划算"
+    ],
+    "liveChatCount": 18,
+    "liveChatMessages": [
+      {
+        "id": "570505091842103219",
+        "text": "主播165 98斤穿S还是M码？求3号链接",
+        "originLanguage": "zh-CN",
+        "author": {
+          "id": "5f9a82b10000000001004c12",
+          "nickname": "小鹿爱穿搭",
+          "avatar": "https://sns-avatar-qc.xhscdn.com/avatar/...",
+          "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/...",
+          "ipLocation": "",
+          "profileUrl": "https://www.xiaohongshu.com/user/profile/5f9a82b10000000001004c12"
+        },
+        "fansGroup": {
+          "groupName": "梨梨铁粉团",
+          "fansLevel": 6,
+          "intimateName": "铁粉",
+          "activeFans": true,
+          "hasJoined": true
+        }
+      }
+    ],
+    "streamInfo": {
+      "flvUrl": "http://live-source-play.xhscdn.com/live/570505062122631608.flv",
+      "hlsUrl": "http://live-source-play.xhscdn.com/live/570505062122631608.m3u8",
+      "backupUrls": [
+        "http://live-source-play-hw.xhscdn.com/live/570505062122631608.flv",
+        "http://live-source-play-hw.xhscdn.com/live/570505062122631608.m3u8"
+      ],
+      "width": 1080,
+      "height": 1920,
+      "codec": "h264",
+      "maxBitrate": 0,
+      "quality": "HD"
+    },
+    "author": {
+      "id": "5b331070e8cd614138e4a9e5",
+      "nickname": "十点梨穿搭记",
+      "redId": "958231044",
+      "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/...",
+      "profileUrl": "https://www.xiaohongshu.com/user/profile/5b331070e8cd614138e4a9e5",
+      "followerCount": 100000,
+      "followerCountFormatted": "100K+",
+      "totalLikesAndCollects": 842150,
+      "isVerified": true
+    },
+    "scrapedAt": "2026-10-20T12:00:00.000000+00:00"
+  }
+]

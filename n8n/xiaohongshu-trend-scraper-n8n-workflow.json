@@ -1,9 +1,9 @@
 {
-  "name": "Xiaohongshu (RedNote / 小红书) Search & Trends Scraper — Automated Extraction to CSV & Sheets (UnitBytes)",
+  "name": "Xiaohongshu Trending, Live & Note Scraper (RedNote / 小红书) — Automated Extraction to CSV & Sheets (UnitBytes)",
   "nodes": [
     {
       "parameters": {
-        "content": "## ⚡ Xiaohongshu (RedNote / 小红书) Search & Trends Scraper — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.0022 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-rednote-trend-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`itemType, id, title, desc, type`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-rednote-trend-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-trend-scraper/](https://unitbytes.com/actors/xiaohongshu-trend-scraper/)",
+        "content": "## ⚡ Xiaohongshu Trending, Live & Note Scraper (RedNote / 小红书) — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.0022 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-rednote-trend-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`itemType, id, roomId, title, type`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-rednote-trend-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-trend-scraper/](https://unitbytes.com/actors/xiaohongshu-trend-scraper/)",
         "height": 380,
         "width": 520,
         "color": 4
@@ -19,7 +19,7 @@
     },
     {
       "parameters": {
-        "content": "### 📊 Connect Your Destination\nThe **\"3. Normalize Output Fields\"** node outputs flat records (`itemType, id, title, desc, type`).\n\n- **Google Sheets / Airtable**: Connect a Google Sheets (`Append or Update Row`) node after Step 3.\n- **Slack / Telegram / Email Alerts**: Connect a Filter node + Slack node to alert your team on new deals or reviews.\n- **AI Agent / OpenAI**: Connect an OpenAI / LLM Chain node to summarize or classify extracted items.",
+        "content": "### 📊 Connect Your Destination\nThe **\"3. Normalize Output Fields\"** node outputs flat records (`itemType, id, roomId, title, type`).\n\n- **Google Sheets / Airtable**: Connect a Google Sheets (`Append or Update Row`) node after Step 3.\n- **Slack / Telegram / Email Alerts**: Connect a Filter node + Slack node to alert your team on new deals or reviews.\n- **AI Agent / OpenAI**: Connect an OpenAI / LLM Chain node to summarize or classify extracted items.",
         "height": 220,
         "width": 420,
         "color": 5
@@ -66,7 +66,7 @@
             {
               "id": "8944c474-6ab0-5885-ac9b-d8a95b9fbec3",
               "name": "actorInput",
-              "value": "{\"startUrls\": [], \"keywords\": [\"OOTD\"], \"maxItems\": 30, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
+              "value": "{\"mode\": \"trending\", \"channels\": [\"homefeed_recommend\"], \"maxItems\": 30, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
               "type": "object"
             }
           ]
@@ -128,15 +128,15 @@
               "type": "string"
             },
             {
-              "id": "180810e0-abca-55d9-85ae-4b59a5ef0b0b",
-              "name": "title",
-              "value": "={{ $json.title }}",
+              "id": "e382cd6c-fdbe-5a38-96b6-c612a8c23e5d",
+              "name": "roomId",
+              "value": "={{ $json.roomId }}",
               "type": "string"
             },
             {
-              "id": "56a520d7-0218-5048-b459-d2672430efb3",
-              "name": "desc",
-              "value": "={{ $json.desc }}",
+              "id": "94a737ee-104b-57a8-80bf-cde7f1dab219",
+              "name": "title",
+              "value": "={{ $json.title }}",
               "type": "string"
             },
             {
@@ -146,9 +146,9 @@
               "type": "string"
             },
             {
-              "id": "911d69e7-dc26-544f-9a68-d17c3c72b83d",
-              "name": "url",
-              "value": "={{ $json.url }}",
+              "id": "b4a090cc-c276-578a-bb37-184739d31f23",
+              "name": "category",
+              "value": "={{ $json.category }}",
               "type": "string"
             }
           ]

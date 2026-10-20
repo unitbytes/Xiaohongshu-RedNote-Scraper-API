@@ -1,9 +1,9 @@
 {
-  "name": "Xiaohongshu (RedNote / 小红书) Comments & Replies Scraper — Automated Extraction to CSV & Sheets (UnitBytes)",
+  "name": "Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper — Automated Extraction to CSV & Sheets (UnitBytes)",
   "nodes": [
     {
       "parameters": {
-        "content": "## ⚡ Xiaohongshu (RedNote / 小红书) Comments & Replies Scraper — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.00249 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-rednote-comments-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`id, noteId, noteUrl, content, likeCount`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-rednote-comments-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-comments-scraper/](https://unitbytes.com/actors/xiaohongshu-comments-scraper/)",
+        "content": "## ⚡ Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.00249 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-rednote-comments-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`itemType, isLiveChat, id, noteId, roomId`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-rednote-comments-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-comments-scraper/](https://unitbytes.com/actors/xiaohongshu-comments-scraper/)",
         "height": 380,
         "width": 520,
         "color": 4
@@ -19,7 +19,7 @@
     },
     {
       "parameters": {
-        "content": "### 📊 Connect Your Destination\nThe **\"3. Normalize Output Fields\"** node outputs flat records (`id, noteId, noteUrl, content, likeCount`).\n\n- **Google Sheets / Airtable**: Connect a Google Sheets (`Append or Update Row`) node after Step 3.\n- **Slack / Telegram / Email Alerts**: Connect a Filter node + Slack node to alert your team on new deals or reviews.\n- **AI Agent / OpenAI**: Connect an OpenAI / LLM Chain node to summarize or classify extracted items.",
+        "content": "### 📊 Connect Your Destination\nThe **\"3. Normalize Output Fields\"** node outputs flat records (`itemType, isLiveChat, id, noteId, roomId`).\n\n- **Google Sheets / Airtable**: Connect a Google Sheets (`Append or Update Row`) node after Step 3.\n- **Slack / Telegram / Email Alerts**: Connect a Filter node + Slack node to alert your team on new deals or reviews.\n- **AI Agent / OpenAI**: Connect an OpenAI / LLM Chain node to summarize or classify extracted items.",
         "height": 220,
         "width": 420,
         "color": 5
@@ -66,7 +66,7 @@
             {
               "id": "68e460d6-8ce6-5094-aaea-835a83d2950c",
               "name": "actorInput",
-              "value": "{\"startUrls\": [{\"url\": \"https://www.xiaohongshu.com/explore/64256e08000000001300575e?xsec_token=ABivcR3TWdHqjbjX2xyNQkAS3_CZsrXHUX9r1tNqo4148=&xsec_source=pc_feed\"}], \"maxCommentsPerNote\": 50, \"maxSubCommentsPerComment\": 10, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
+              "value": "{\"mode\": \"comments\", \"startUrls\": [{\"url\": \"https://www.xiaohongshu.com/explore/64256e08000000001300575e?xsec_token=ABivcR3TWdHqjbjX2xyNQkAS3_CZsrXHUX9r1tNqo4148=&xsec_source=pc_feed\"}], \"maxCommentsPerNote\": 20, \"maxSubCommentsPerComment\": 5, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
               "type": "object"
             }
           ]
@@ -116,39 +116,39 @@
         "assignments": {
           "assignments": [
             {
-              "id": "53f7ea39-9ed7-57c8-af2e-cb5c4839b9e0",
+              "id": "1f44b7ac-e1a1-5d7b-8d27-b7948eb2b2e9",
+              "name": "itemType",
+              "value": "={{ $json.itemType }}",
+              "type": "string"
+            },
+            {
+              "id": "4726e9a2-fa18-5a19-9ab3-6f6e99cc6a46",
+              "name": "isLiveChat",
+              "value": "={{ $json.isLiveChat }}",
+              "type": "string"
+            },
+            {
+              "id": "aa8f4651-77d7-5f40-9959-32f6352aa41e",
               "name": "id",
               "value": "={{ $json.id }}",
               "type": "string"
             },
             {
-              "id": "d933ab7f-6628-5041-8126-3afbe964b7fc",
+              "id": "e763fe2a-a4e5-538f-82f1-646263865dea",
               "name": "noteId",
               "value": "={{ $json.noteId }}",
               "type": "string"
             },
             {
-              "id": "106cdf9a-1c7f-5fd9-bc14-80899cce9eed",
-              "name": "noteUrl",
-              "value": "={{ $json.noteUrl }}",
+              "id": "86268ab4-6916-5c15-a9e5-3c592bfebe28",
+              "name": "roomId",
+              "value": "={{ $json.roomId }}",
               "type": "string"
             },
             {
-              "id": "4fd43712-69fc-5291-8fb1-19a28649513e",
-              "name": "content",
-              "value": "={{ $json.content }}",
-              "type": "string"
-            },
-            {
-              "id": "a48654bb-7877-57c1-a5f9-8ec553e323e2",
-              "name": "likeCount",
-              "value": "={{ $json.likeCount }}",
-              "type": "string"
-            },
-            {
-              "id": "580a6fec-4be9-513b-bba6-b04ae4fb027b",
-              "name": "subCommentCount",
-              "value": "={{ $json.subCommentCount }}",
+              "id": "ae163c6b-a81c-520a-9173-8cdcd341e380",
+              "name": "roomTitle",
+              "value": "={{ $json.roomTitle }}",
               "type": "string"
             }
           ]
