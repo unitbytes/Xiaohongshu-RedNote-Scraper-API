@@ -1,36 +1,84 @@
 {
-  "name": "Xiaohongshu (RedNote / 小红书) Scraper: Trends, Live & KOLs — Automated Extraction to CSV & Sheets (UnitBytes)",
+  "name": "Extract and score Xiaohongshu (RedNote / 小红书) Scraper: Trends, Live & KOLs data to Google Sheets, CSV, and Slack with Apify",
   "nodes": [
     {
       "parameters": {
-        "content": "## ⚡ Xiaohongshu (RedNote / 小红书) Scraper: Trends, Live & KOLs — Automated n8n Pipeline\n**Powered by [UnitBytes on Apify](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.0022 / item)\n\n### ⚙️ How It Works\nThis workflow runs on a schedule, calls the **[xiaohongshu-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io)** via its synchronous REST endpoint, normalizes the extracted fields (`itemType, id, roomId, title, type`), and exports a clean CSV file.\n\n### 🚀 30-Second Setup Instructions\n1. **Get your free Apify API Token**: Open [xiaohongshu-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io) and copy your API token from **Settings → Integrations**.\n2. **Paste your token & search parameters**: Double-click the **\"1. Set Apify Token & Input\"** node and replace `YOUR_APIFY_API_TOKEN` with your token.\n3. **Click \"Test Workflow\"**: The HTTP Request node calls the synchronous UnitBytes Apify endpoint, normalizes the extracted records, and exports a clean CSV file ready for Google Sheets, Airtable, Slack, or OpenAI.\n\n📖 **Documentation & Schema Reference**: [https://unitbytes.com/actors/xiaohongshu-scraper/](https://unitbytes.com/actors/xiaohongshu-scraper/)",
-        "height": 380,
-        "width": 520,
-        "color": 4
+        "content": "## Xiaohongshu (RedNote / 小红书) Scraper: Trends, Live & KOLs — Automated Sheets, CSV & Slack Pipeline\n\nBuilt for market research, e-commerce, and growth teams. This workflow runs on a schedule to extract fresh data with the **[xiaohongshu-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.0022 / item), skips previously seen records, scores each item, logs results to **Google Sheets** and **CSV**, and posts **Slack** alerts for top matches.\n\n### How it works\n1. **Every 6 Hours** triggers the run and loads search settings from **1. Configure Search & Rules**.\n2. **2. Run UnitBytes (xiaohongshu-scraper)** executes the actor via Apify's synchronous endpoint.\n3. **3. Skip Seen Records** deduplicates items by `id` across runs.\n4. **4. Clean & Score Items** and **5. Map Export Fields** normalize fields (`itemType, id, roomId, title, type`) and compute a 0–100 `priorityScore`.\n5. **6a. Log to Google Sheets** and **6b. Export Backup CSV** store all rows, while **6c. Filter High-Priority Items** sends top matches to **7. Send Slack Alert**.\n\n### Setup\n1. Copy your API token from [xiaohongshu-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=n8n_io) into the **HTTP Header Auth** credential (`Authorization: Bearer <TOKEN>`) on node 2.\n2. Edit `actorInput`, `sheetTab`, and `minEngagementScore` in **1. Configure Search & Rules**.\n3. Connect **Google Sheets** and **Slack** credentials (or test immediately via CSV export).\n\n### Customization\n- Tune `minEngagementScore` or `priorityKeyword` in node 1 to adjust Slack alert sensitivity.\n- Full schema reference: [https://unitbytes.com/actors/xiaohongshu-scraper/](https://unitbytes.com/actors/xiaohongshu-scraper/)",
+        "height": 760,
+        "width": 560,
+        "color": 1
       },
-      "id": "52e99587-afb8-5392-852c-30aafaa616e8",
-      "name": "Sticky Note — Setup Guide",
+      "id": "03e3e1eb-5f4e-5310-ba28-55e130c0635f",
+      "name": "Overview",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        180,
-        80
+        -640,
+        -80
       ]
     },
     {
       "parameters": {
-        "content": "### 📊 Connect Your Destination\nThe **\"3. Normalize Output Fields\"** node outputs flat records (`itemType, id, roomId, title, type`).\n\n- **Google Sheets / Airtable**: Connect a Google Sheets (`Append or Update Row`) node after Step 3.\n- **Slack / Telegram / Email Alerts**: Connect a Filter node + Slack node to alert your team on new deals or reviews.\n- **AI Agent / OpenAI**: Connect an OpenAI / LLM Chain node to summarize or classify extracted items.",
-        "height": 220,
-        "width": 420,
-        "color": 5
+        "content": "## 1. Schedule & Search Settings\nTriggers on schedule and sets target search parameters, Google Sheets tab, and alert thresholds.",
+        "height": 380,
+        "width": 440,
+        "color": 7
       },
-      "id": "4e8ccfce-e920-522f-bb7f-9def21d7c31d",
-      "name": "Sticky Note — Destinations",
+      "id": "0b6e1e35-9e37-5dc0-9cbd-a5c2e27fdacb",
+      "name": "Section 1 — Schedule & Settings",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        880,
-        140
+        0,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 2. Extract & Deduplicate\nRuns the UnitBytes Apify Actor and skips records already processed in previous runs.",
+        "height": 380,
+        "width": 440,
+        "color": 7
+      },
+      "id": "23949c7e-15bb-57fa-b7b2-ddc6cd5a15d9",
+      "name": "Section 2 — Extract & Deduplicate",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        460,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 3. Clean, Score & Flatten\nNormalizes fields, parses numeric metrics, and calculates a 0–100 priority score.",
+        "height": 380,
+        "width": 440,
+        "color": 7
+      },
+      "id": "5a2afc6e-8bf6-572a-baf6-cdadf41aad0d",
+      "name": "Section 3 — Clean, Score & Flatten",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        920,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## 4. Sync to Sheets, CSV & Slack\nLogs all new records to Google Sheets and CSV, and routes high-priority matches to Slack.",
+        "height": 660,
+        "width": 540,
+        "color": 7
+      },
+      "id": "b47dbbd5-efc4-5143-9460-16c063b6e69b",
+      "name": "Section 4 — Sheets, CSV & Slack",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        -80
       ]
     },
     {
@@ -39,18 +87,18 @@
           "interval": [
             {
               "field": "hours",
-              "hoursInterval": 24
+              "hoursInterval": 6
             }
           ]
         }
       },
       "id": "e02a31c5-4a30-592a-bda7-3b00ac826eb6",
-      "name": "Schedule Trigger",
+      "name": "Every 6 Hours",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        220,
-        480
+        40,
+        220
       ]
     },
     {
@@ -58,34 +106,48 @@
         "assignments": {
           "assignments": [
             {
-              "id": "84155710-3082-59d0-aef8-619617e84521",
-              "name": "apifyToken",
-              "value": "YOUR_APIFY_API_TOKEN",
-              "type": "string"
-            },
-            {
               "id": "d641bdc9-b261-50e9-b42e-6477e0f98936",
               "name": "actorInput",
               "value": "{\"mode\": \"trending\", \"channels\": [\"homefeed_recommend\"], \"maxItems\": 30, \"maxCreators\": 15, \"maxNotesPerCreator\": 15, \"maxCommentsPerNote\": 0, \"proxyConfiguration\": {\"useApifyProxy\": true, \"apifyProxyGroups\": [\"RESIDENTIAL\"], \"apifyProxyCountry\": \"HK\"}}",
               "type": "object"
+            },
+            {
+              "id": "4042c81c-6866-5fa2-9182-ea2f52d86c26",
+              "name": "sheetTab",
+              "value": "CommunityFeed",
+              "type": "string"
+            },
+            {
+              "id": "ef49803a-2111-5a4e-994a-fac90c1a9bea",
+              "name": "minEngagementScore",
+              "value": 50,
+              "type": "number"
+            },
+            {
+              "id": "f13dd965-3cb2-58fa-a66b-b7ba33470b3e",
+              "name": "priorityKeyword",
+              "value": "",
+              "type": "string"
             }
           ]
         },
         "options": {}
       },
       "id": "d758d413-3f9d-5f3d-a082-b2b0f55265f6",
-      "name": "1. Set Apify Token & Input",
+      "name": "1. Configure Search & Rules",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        460,
-        480
+        260,
+        220
       ]
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://api.apify.com/v2/acts/unitbytes~xiaohongshu-scraper/run-sync-get-dataset-items?token={{ $json.apifyToken }}&format=json&clean=true",
+        "url": "https://api.apify.com/v2/acts/unitbytes~xiaohongshu-scraper/run-sync-get-dataset-items?format=json&clean=true",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -102,13 +164,47 @@
           "timeout": 300000
         }
       },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "58e4a8b3-3798-5837-9e9c-c5513711f4d1",
+          "name": "Apify API Token (Header Auth)"
+        }
+      },
       "id": "046f6fe5-5d94-59a4-afeb-a7233571ea25",
       "name": "2. Run UnitBytes (xiaohongshu-scraper)",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        700,
-        480
+        500,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "removeItemsSeenInPreviousExecutions",
+        "dedupeValue": "={{ $json.id || $json.id || $json.url }}",
+        "options": {}
+      },
+      "id": "a262fc48-b461-5282-9d59-358fcc3ecdb3",
+      "name": "3. Skip Seen Records",
+      "type": "n8n-nodes-base.removeDuplicates",
+      "typeVersion": 2,
+      "position": [
+        720,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Normalize fields, parse numeric metrics, and score items for Slack alerts\nconst config = $('1. Configure Search & Rules').first().json;\nconst threshold = Number(config.minEngagementScore ?? 50);\nconst keywordFilter = String(config.priorityKeyword || '').trim().toLowerCase();\nconst primaryKeys = [\"itemType\", \"id\", \"roomId\", \"title\", \"type\", \"category\"];\n\nreturn $input.all().map((item) => {\n  const raw = item.json || {};\n  const cleaned = { ...raw };\n\n  for (const k of primaryKeys) {\n    if (typeof cleaned[k] === 'string') {\n      cleaned[k] = cleaned[k].replace(/\\s+/g, ' ').trim();\n    }\n  }\n\n  const recordId = String(cleaned.id || cleaned.id || cleaned.url || '');\n  const titleText = String(cleaned.title || cleaned.content || cleaned.body || cleaned.keyword || cleaned.name || cleaned.sellerNick || recordId).slice(0, 180);\n  const itemUrl = String(cleaned.url || cleaned.productUrl || cleaned.taobaoUrl || cleaned.resolved_url || cleaned.input_url || cleaned.contributor_url || '');\n  const rawMetric = cleaned.price ?? cleaned.promotionPrice ?? cleaned.priceMin ?? cleaned.score ?? cleaned.likedCount ?? cleaned.likeCount ?? cleaned.value ?? cleaned.review_stars ?? cleaned.local_guide_level ?? 0;\n  const numericValue = Number(String(rawMetric).replace(/[^0-9.-]/g, '')) || 0;\n\n  let priorityScore = 50;\n  let isHighPriority = false;\n  const mode = 'engagement';\n\n  if (mode === 'price_deal') {\n    if (numericValue > 0 && numericValue <= threshold) {\n      priorityScore = Math.min(100, Math.round(70 + ((threshold - numericValue) / Math.max(threshold, 1)) * 30));\n      isHighPriority = true;\n    }\n  } else if (mode === 'review_audit') {\n    if (cleaned.is_removed === true || cleaned.is_edited === true || (numericValue > 0 && numericValue <= threshold)) {\n      priorityScore = 95;\n      isHighPriority = true;\n    }\n  } else {\n    if (numericValue >= threshold) {\n      priorityScore = Math.min(100, Math.round(70 + Math.min(numericValue / Math.max(threshold, 1), 3) * 10));\n      isHighPriority = true;\n    }\n  }\n\n  if (keywordFilter && titleText.toLowerCase().includes(keywordFilter)) {\n    priorityScore = Math.min(100, priorityScore + 20);\n    isHighPriority = true;\n  }\n\n  return {\n    json: {\n      ...cleaned,\n      recordId,\n      titleText,\n      itemUrl,\n      numericValue,\n      priorityScore,\n      isHighPriority,\n      alertSummary: `${titleText} (Metric: ${numericValue} | Score: ${priorityScore}/100)`,\n      scrapedAt: new Date().toISOString(),\n    },\n  };\n});"
+      },
+      "id": "2b9bfde0-388e-5c80-9f9b-e88352aa070d",
+      "name": "4. Clean & Score Items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        220
       ]
     },
     {
@@ -150,6 +246,36 @@
               "name": "category",
               "value": "={{ $json.category }}",
               "type": "string"
+            },
+            {
+              "id": "9b2c36d3-21e4-5213-9fea-3753a21e4814",
+              "name": "numericValue",
+              "value": "={{ $json.numericValue }}",
+              "type": "number"
+            },
+            {
+              "id": "620e706f-b12a-530a-8340-0f90bb53cab2",
+              "name": "priorityScore",
+              "value": "={{ $json.priorityScore }}",
+              "type": "number"
+            },
+            {
+              "id": "d3b76d35-fee4-5401-a7fa-3331352fcf1b",
+              "name": "isHighPriority",
+              "value": "={{ $json.isHighPriority }}",
+              "type": "boolean"
+            },
+            {
+              "id": "58984d3a-1f8b-5920-90c3-353c81524786",
+              "name": "alertSummary",
+              "value": "={{ $json.alertSummary }}",
+              "type": "string"
+            },
+            {
+              "id": "0344cdd8-5c98-5364-ad7e-a7b0b6b2b031",
+              "name": "scrapedAt",
+              "value": "={{ $json.scrapedAt }}",
+              "type": "string"
             }
           ]
         },
@@ -157,12 +283,163 @@
         "options": {}
       },
       "id": "b617ef3d-74ff-518f-aef4-92e5316f3b61",
-      "name": "3. Normalize Output Fields",
+      "name": "5. Map Export Fields",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        940,
-        480
+        1180,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "sheet",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "name",
+          "value": "={{ $('1. Configure Search & Rules').first().json.sheetTab }}"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "itemType": "={{ $json.itemType }}",
+            "id": "={{ $json.id }}",
+            "roomId": "={{ $json.roomId }}",
+            "title": "={{ $json.title }}",
+            "type": "={{ $json.type }}",
+            "category": "={{ $json.category }}",
+            "numericValue": "={{ $json.numericValue }}",
+            "priorityScore": "={{ $json.priorityScore }}",
+            "isHighPriority": "={{ $json.isHighPriority }}",
+            "alertSummary": "={{ $json.alertSummary }}",
+            "scrapedAt": "={{ $json.scrapedAt }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "itemType",
+              "displayName": "itemType",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "roomId",
+              "displayName": "roomId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "title",
+              "displayName": "title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "type",
+              "displayName": "type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category",
+              "displayName": "category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "numericValue",
+              "displayName": "numericValue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "priorityScore",
+              "displayName": "priorityScore",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "isHighPriority",
+              "displayName": "isHighPriority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "alertSummary",
+              "displayName": "alertSummary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "scrapedAt",
+              "displayName": "scrapedAt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "cellFormat": "RAW"
+        }
+      },
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "392f8733-93e7-5818-aa0c-b1fd35cc5d9c",
+          "name": "Google Sheets account"
+        }
+      },
+      "id": "eb4affed-4f6e-5537-bc32-3ff85abd537d",
+      "name": "6a. Log to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1440,
+        -20
       ]
     },
     {
@@ -173,28 +450,94 @@
         }
       },
       "id": "84bcc897-2d4d-5b1f-a736-ae6f2388a477",
-      "name": "4. Export to CSV File",
+      "name": "6b. Export Backup CSV",
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        1180,
-        480
+        1440,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "03be0ed6-4254-5087-9a9d-993a859dc414",
+              "leftValue": "={{ $json.isHighPriority }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "737eba5f-1b29-50e8-879b-076e4898e3ae",
+      "name": "6c. Filter High-Priority Items",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1440,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "post",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "messageType": "text",
+        "text": "=:bell: *New High-Priority Match (Xiaohongshu (RedNote / 小红书) Scraper: Trends, Live & KOLs)*\n*<{{ $json.itemUrl }}|{{ $json.titleText }}>*\n• *Priority Score:* {{ $json.priorityScore }}/100 ({{ $json.numericValue }})\n• *Record ID:* `{{ $json.recordId }}`\n• *Scraped At:* {{ $json.scrapedAt }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "unfurl_links": false
+        }
+      },
+      "credentials": {
+        "slackApi": {
+          "id": "6c67b0db-bde1-5e74-9d67-b43b6bfdb500",
+          "name": "Slack account"
+        }
+      },
+      "id": "1fc3e1cd-e267-5f88-9a46-1dc86093723e",
+      "name": "7. Send Slack Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        1680,
+        360
       ]
     }
   ],
   "connections": {
-    "Schedule Trigger": {
+    "Every 6 Hours": {
       "main": [
         [
           {
-            "node": "1. Set Apify Token & Input",
+            "node": "1. Configure Search & Rules",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "1. Set Apify Token & Input": {
+    "1. Configure Search & Rules": {
       "main": [
         [
           {
@@ -209,18 +552,61 @@
       "main": [
         [
           {
-            "node": "3. Normalize Output Fields",
+            "node": "3. Skip Seen Records",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "3. Normalize Output Fields": {
+    "3. Skip Seen Records": {
       "main": [
         [
           {
-            "node": "4. Export to CSV File",
+            "node": "4. Clean & Score Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Clean & Score Items": {
+      "main": [
+        [
+          {
+            "node": "5. Map Export Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5. Map Export Fields": {
+      "main": [
+        [
+          {
+            "node": "6a. Log to Google Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "6b. Export Backup CSV",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "6c. Filter High-Priority Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6c. Filter High-Priority Items": {
+      "main": [
+        [
+          {
+            "node": "7. Send Slack Alert",
             "type": "main",
             "index": 0
           }
