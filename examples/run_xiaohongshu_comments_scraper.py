@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+"""
+Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper — Official Python SDK Quickstart
+Actor: https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=gh_py
+Docs & Schema: https://unitbytes.com/actors/xiaohongshu-comments-scraper/
+n8n Template: https://unitbytes.com/n8n/workflows/xiaohongshu-comments-scraper-n8n-workflow.json
+
+Usage:
+    pip install apify-client
+    export APIFY_API_TOKEN="your_apify_api_token"
+    python examples/run_xiaohongshu_comments_scraper.py
+"""
+
+import os
+from apify_client import ApifyClient
+
+APIFY_TOKEN = os.getenv("APIFY_API_TOKEN", "YOUR_APIFY_API_TOKEN")
+if not APIFY_TOKEN or APIFY_TOKEN.startswith("YOUR_"):
+    raise SystemExit("Please set your Apify API token: export APIFY_API_TOKEN='apify_api_...'")
+
+client = ApifyClient(APIFY_TOKEN)
+
+run_input = {
+    "mode": "comments",
+    "startUrls": [
+        {
+            "url": "https://www.xiaohongshu.com/explore/64256e08000000001300575e?xsec_token=example_token_redacted&xsec_source=pc_feed"
+        }
+    ],
+    "maxCommentsPerNote": 20,
+    "maxSubCommentsPerComment": 5,
+    "includeSubComments": True
+}
+
+run = client.actor("unitbytes/xiaohongshu-rednote-comments-scraper").call(run_input=run_input)
+
+for item in client.dataset(run["defaultDatasetId"]).iterate_items():
+    print(item.get("authorName"), item.get("content"), item.get("likeCount"), item.get("noteUrl"))

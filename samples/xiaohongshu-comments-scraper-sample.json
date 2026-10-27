@@ -1,0 +1,35 @@
+[
+  {
+    "itemType": "comment",
+    "isLiveChat": false,
+    "id": "660000000000000000000101",
+    "noteId": "660000000000000000000001",
+    "noteUrl": "https://www.xiaohongshu.com/explore/660000000000000000000001",
+    "authorName": "穿搭爱好者_02",
+    "content": "请问这款风衣是什么面料？165cm穿M码合适吗？",
+    "likeCount": 86,
+    "subCommentCount": 3,
+    "ipLocation": "上海",
+    "createTime": "2026-10-18T14:22:10Z",
+    "author": {
+      "id": "600000000000000000000002",
+      "nickname": "穿搭爱好者_02",
+      "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/600000000000000000000002.jpg",
+      "profileUrl": "https://www.xiaohongshu.com/user/profile/600000000000000000000002"
+    },
+    "subComments": [
+      {
+        "id": "660000000000000000000102",
+        "content": "是精纺全棉防风面料，正肩版型选M码刚好合身。",
+        "likeCount": 24,
+        "ipLocation": "上海",
+        "createTime": "2026-10-18T14:35:00Z",
+        "author": {
+          "id": "600000000000000000000001",
+          "nickname": "时尚达人_01"
+        }
+      }
+    ],
+    "scrapedAt": "2026-10-20T12:00:00Z"
+  }
+]

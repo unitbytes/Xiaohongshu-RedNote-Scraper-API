@@ -1,0 +1,85 @@
+[
+  {
+    "itemType": "live_room",
+    "type": "live",
+    "id": "570505062122631608",
+    "roomId": "570505062122631608",
+    "title": "秋冬赴暖｜设计师质感衣橱专场",
+    "nickname": "时尚达人_03",
+    "profileUrl": "https://www.xiaohongshu.com/user/profile/600000000000000000000003",
+    "followerCount": 100000,
+    "likedCount": 5280,
+    "commentCount": 18,
+    "category": "All (全部)",
+    "categoryId": "0",
+    "url": "https://www.xiaohongshu.com/livelist?channel_id=0&channel_type=web_live_list&room_id=570505062122631608",
+    "coverUrl": "https://sns-img-qc.xhscdn.com/1040g2jo31livecover.jpg",
+    "isLive": true,
+    "hasGoods": true,
+    "isPaidLive": false,
+    "viewersTotalUv": 14820,
+    "viewersConcurrent": 412,
+    "displayCount": 412,
+    "roomPv": 14820,
+    "displayLikesCount": "5280",
+    "displayViewerCount": "1.4万观看",
+    "displayMemberCount": "412人在线",
+    "roomStatus": 2,
+    "monetizeType": 1,
+    "hotValue": 14820,
+    "pinnedAnnouncement": "新进直播间的姐妹点点关注，领30元粉丝券！",
+    "buyerIntentKeywords": [
+      "身高体重穿什么码",
+      "几号链接",
+      "划算"
+    ],
+    "liveChatCount": 18,
+    "liveChatMessages": [
+      {
+        "id": "570505091842103219",
+        "text": "求3号同款链接，平时穿M码合适吗？",
+        "originLanguage": "zh-CN",
+        "author": {
+          "id": "600000000000000000000004",
+          "nickname": "时尚达人_04",
+          "avatar": "https://sns-avatar-qc.xhscdn.com/avatar/600000000000000000000004.jpg",
+          "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/600000000000000000000004.jpg",
+          "ipLocation": "",
+          "profileUrl": "https://www.xiaohongshu.com/user/profile/600000000000000000000004"
+        },
+        "fansGroup": {
+          "groupName": "梨梨铁粉团",
+          "fansLevel": 6,
+          "intimateName": "铁粉",
+          "activeFans": true,
+          "hasJoined": true
+        }
+      }
+    ],
+    "streamInfo": {
+      "flvUrl": "https://live-source-play.xhscdn.com/live/570505062122631608.flv",
+      "hlsUrl": "https://live-source-play.xhscdn.com/live/570505062122631608.m3u8",
+      "backupUrls": [
+        "https://live-source-play-hw.xhscdn.com/live/570505062122631608.flv",
+        "https://live-source-play-hw.xhscdn.com/live/570505062122631608.m3u8"
+      ],
+      "width": 1080,
+      "height": 1920,
+      "codec": "h264",
+      "maxBitrate": 0,
+      "quality": "HD"
+    },
+    "author": {
+      "id": "600000000000000000000003",
+      "nickname": "时尚达人_03",
+      "redId": "creator_demo_02",
+      "avatarUrl": "https://sns-avatar-qc.xhscdn.com/avatar/600000000000000000000003.jpg",
+      "profileUrl": "https://www.xiaohongshu.com/user/profile/600000000000000000000003",
+      "followerCount": 100000,
+      "followerCountFormatted": "100K+",
+      "totalLikesAndCollects": 842150,
+      "isVerified": true
+    },
+    "scrapedAt": "2026-10-20T12:00:00.000000+00:00"
+  }
+]
