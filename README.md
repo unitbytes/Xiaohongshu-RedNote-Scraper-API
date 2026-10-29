@@ -3,13 +3,14 @@
 <div align="center">
 
 [![Available on Apify](https://img.shields.io/badge/Available_on-Apify-28B52A?style=for-the-badge&logo=apify&logoColor=white)](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=gh_xhs)
+[![Open in Colab](https://img.shields.io/badge/Open_in-Google_Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/unitbytes/Xiaohongshu-RedNote-Scraper-API/blob/main/notebooks/quickstart.ipynb)
 [![n8n Creator Hub](https://img.shields.io/badge/n8n_Creator_Hub-@unitbytes-EA4B71?style=for-the-badge&logo=n8n&logoColor=white)](https://n8n.io/creators/unitbytes/)
-[![Zero Login](https://img.shields.io/badge/Account_Required-None-blue?style=for-the-badge)](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=gh_xhs)
+[![Release](https://img.shields.io/github/v/release/unitbytes/Xiaohongshu-RedNote-Scraper-API?style=for-the-badge&logo=github&color=10b981)](https://github.com/unitbytes/Xiaohongshu-RedNote-Scraper-API/releases)
 [![Pricing](https://img.shields.io/badge/Pricing-Pay_Per_Result-orange?style=for-the-badge)](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=gh_xhs)
 
 **Cookieless Xiaohongshu (小红书 / RedNote) 5-Engine Data Extraction Suite on Apify. Extract trending viral notes, unwatermarked HD videos & image galleries, KOL creator portfolios, nested comment trees with buyer-intent tags, and real-time e-commerce live rooms with zero login or cookies required.**
 
-[**🚀 Try Live on Apify**](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=gh_xhs) • [**⚡ Official n8n Creator Hub**](https://n8n.io/creators/unitbytes/) • [**🔧 39 Free n8n Templates**](https://unitbytes.com/n8n/) • [**📖 Documentation & Schemas**](https://unitbytes.com/actors/) • [**📚 Engineering Playbooks**](https://unitbytes.com/blog/)
+[**🚀 Try Live on Apify**](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=gh_xhs) • [**📓 Open in Google Colab**](https://colab.research.google.com/github/unitbytes/Xiaohongshu-RedNote-Scraper-API/blob/main/notebooks/quickstart.ipynb) • [**⚡ Official n8n Creator Hub**](https://n8n.io/creators/unitbytes/) • [**🔧 39 Free n8n Templates**](https://unitbytes.com/n8n/) • [**📖 Documentation & Schemas**](https://unitbytes.com/actors/) • [**📚 Engineering Playbooks**](https://unitbytes.com/blog/)
 
 </div>
 
@@ -32,9 +33,9 @@
 ---
 
 <!-- UNITBYTES_REPO_KIT_START -->
-## 📦 Included in This Repository (Python Quickstarts, n8n Workflows, MCP & Sample Data)
+## 📦 Included in This Repository (Python Quickstarts, Google Colab, n8n Workflows, MCP & Sample Data)
 
-This repository contains ready-to-run **Python SDK scripts**, **9-node n8n automation workflow `.json` templates**, **AI Agent MCP configuration (`.cursor/mcp.json`)**, and **sample output datasets (JSON & CSV)**:
+This repository contains ready-to-run **Python SDK scripts**, an **interactive 1-Click Google Colab notebook (`notebooks/quickstart.ipynb`)**, **9-node n8n automation workflow `.json` templates**, **AI Agent MCP configuration (`.cursor/mcp.json`)**, and **sample output datasets (JSON & CSV)**:
 
 | Extraction Engine | 🐍 Python SDK Quickstart | ⚡ n8n Workflow Template | 📊 Sample Output | 🚀 Cloud Console |
 | :--- | :--- | :--- | :---: | :---: |
@@ -44,6 +45,7 @@ This repository contains ready-to-run **Python SDK scripts**, **9-node n8n autom
 | **Xiaohongshu (RedNote / 小红书) Creator & KOL Leads Scraper**<br><sub>[`unitbytes/xiaohongshu-rednote-profile-scraper`](https://apify.com/unitbytes/xiaohongshu-rednote-profile-scraper?fpr=939u3w&fp_sid=gh_xhs) • [Full Schema](https://unitbytes.com/actors/xiaohongshu-rednote-profile-scraper/) • [Engineering Playbook](https://unitbytes.com/blog/xiaohongshu-live-stream-kol-scraper-api-guide/)</sub> | [`examples/run_xiaohongshu_rednote_profile_scraper.py`](examples/run_xiaohongshu_rednote_profile_scraper.py) | [`n8n/xiaohongshu-rednote-profile-scraper-n8n-workflow.json`](n8n/xiaohongshu-rednote-profile-scraper-n8n-workflow.json) | [`JSON`](samples/xiaohongshu-rednote-profile-scraper-sample.json) · [`CSV`](samples/xiaohongshu-rednote-profile-scraper-sample.csv) | [⚡ **Run on Apify**](https://apify.com/unitbytes/xiaohongshu-rednote-profile-scraper?fpr=939u3w&fp_sid=gh_xhs) |
 | **Xiaohongshu (RedNote / 小红书) Live Stream & Commerce Scraper**<br><sub>[`unitbytes/xiaohongshu-rednote-live-scraper`](https://apify.com/unitbytes/xiaohongshu-rednote-live-scraper?fpr=939u3w&fp_sid=gh_xhs) • [Full Schema](https://unitbytes.com/actors/xiaohongshu-rednote-live-scraper/) • [Engineering Playbook](https://unitbytes.com/blog/xiaohongshu-live-stream-kol-scraper-api-guide/)</sub> | [`examples/run_xiaohongshu_rednote_live_scraper.py`](examples/run_xiaohongshu_rednote_live_scraper.py) | [`n8n/xiaohongshu-rednote-live-scraper-n8n-workflow.json`](n8n/xiaohongshu-rednote-live-scraper-n8n-workflow.json) | [`JSON`](samples/xiaohongshu-rednote-live-scraper-sample.json) · [`CSV`](samples/xiaohongshu-rednote-live-scraper-sample.csv) | [⚡ **Run on Apify**](https://apify.com/unitbytes/xiaohongshu-rednote-live-scraper?fpr=939u3w&fp_sid=gh_xhs) |
 
+- 📓 **1-Click Interactive Google Colab Notebook:** Open [`notebooks/quickstart.ipynb`](notebooks/quickstart.ipynb) directly in your browser via [**Google Colab ↗**](https://colab.research.google.com/github/unitbytes/Xiaohongshu-RedNote-Scraper-API/blob/main/notebooks/quickstart.ipynb) to inspect sample DataFrames and test live API queries with zero local setup.
 - 🤖 **Cursor, Windsurf & Claude Code MCP Ready:** Includes [`.cursor/mcp.json`](.cursor/mcp.json) pre-configured with `https://mcp.apify.com` so AI coding agents can invoke these UnitBytes scrapers natively.
 - 💡 **Using n8n?** Explore our official creator profile at **[n8n.io/creators/unitbytes](https://n8n.io/creators/unitbytes/)** or copy all 39 pre-built 9-node scraping workflows (`Ctrl+V`) at **[unitbytes.com/n8n](https://unitbytes.com/n8n/)**.
 - 📚 **Engineering Playbooks:** [**Social Commerce Playbook**](https://unitbytes.com/blog/how-to-scrape-xiaohongshu-rednote-without-account-guide/) • [**KOL & Influencer Leads Playbook**](https://unitbytes.com/blog/xiaohongshu-live-stream-kol-scraper-api-guide/) — or browse all guides at **[unitbytes.com/blog](https://unitbytes.com/blog/)**.
@@ -689,7 +691,10 @@ No. Live room discovery, stream URL resolution, and chat/commerce polling run 10
 
 ## ⚡ Quick Installation & Local Usage
 
-### 1. Run with Python (`apify-client`)
+### 1. Run Interactively in Google Colab (Zero Local Setup)
+Click **[Open in Google Colab ↗](https://colab.research.google.com/github/unitbytes/Xiaohongshu-RedNote-Scraper-API/blob/main/notebooks/quickstart.ipynb)** ([`notebooks/quickstart.ipynb`](notebooks/quickstart.ipynb)) to inspect the sample output DataFrame immediately and run live extractions in your browser without installing Python locally.
+
+### 2. Run Locally with Python (`apify-client`)
 ```bash
 git clone https://github.com/unitbytes/Xiaohongshu-RedNote-Scraper-API.git
 cd Xiaohongshu-RedNote-Scraper-API
@@ -698,12 +703,12 @@ export APIFY_API_TOKEN="your_apify_api_token"
 python examples/run_xiaohongshu_trend_scraper.py
 ```
 
-### 2. Import into n8n (Self-Hosted or Cloud)
+### 3. Import into n8n (Self-Hosted or Cloud)
 1. Open any `.json` file inside the [`n8n/`](n8n/) folder (or copy in 1 click from **[unitbytes.com/n8n](https://unitbytes.com/n8n/)** / **[n8n.io/creators/unitbytes](https://n8n.io/creators/unitbytes/)**).
 2. Press **`Ctrl+V` / `Cmd+V`** directly onto your n8n workflow canvas.
 3. Configure your Apify API Token in the `HTTP Header Auth` credential on Node `2. Run UnitBytes (...)` (and customize your search inputs in Node `1. Configure Search & Rules`), then click **Test Workflow**.
 
-### 3. Use with AI Coding Agents (Cursor, Windsurf & Claude Code MCP)
+### 4. Use with AI Coding Agents (Cursor, Windsurf & Claude Code MCP)
 This repository includes a ready-to-use Model Context Protocol configuration at [`.cursor/mcp.json`](.cursor/mcp.json) pointing to `https://mcp.apify.com` with this suite's UnitBytes actors pre-registered. Open this folder in **Cursor** or **Windsurf** to let your AI agent run live extractions and inspect schemas automatically.
 
 ---
