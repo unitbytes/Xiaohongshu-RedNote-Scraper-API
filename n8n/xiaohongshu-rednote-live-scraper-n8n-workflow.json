@@ -1,9 +1,9 @@
 {
-  "name": "Analyze Xiaohongshu (RedNote / 小红书) Live Stream & Commerce Scraper buying intent with OpenAI to Google Sheets, Gmail, and Slack",
+  "name": "Analyze Xiaohongshu (RedNote) live streams with OpenAI to Google Sheets, Gmail, and Slack",
   "nodes": [
     {
       "parameters": {
-        "content": "## Xiaohongshu (RedNote / 小红书) Live Stream & Commerce Scraper — AI Co-Pilot & Multi-App Pipeline\n\nExtracts fresh data on a schedule with the **[xiaohongshu-rednote-live-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-live-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.0079 / item), skips seen records, logs all rows to **Google Sheets** and **CSV**, and enriches top matches with **OpenAI (`gpt-4o-mini`)** for **Slack** and **Gmail**.\n\n### How it works\n1. **Every 6 Hours** loads rules from **1. Configure Search & Rules**.\n2. **2. Run UnitBytes (xiaohongshu-rednote-live-scraper)** fetches data and **3. Skip Seen Records** deduplicates by `id`.\n3. **4. Clean & Score Items** and **5. Map Export Fields** normalize `roomId, title, nickname, viewersTotalUv` and compute `priorityScore`.\n4. **6a. Log to Google Sheets** and **6b. Export Backup CSV** save all rows, while **6c. Filter High-Priority Items** routes top matches to **7. AI Buying-Intent & Reply Co-Pilot**.\n5. **8. Merge AI Intent & Reply Draft** merges AI fields and triggers **9a. Send Buying-Intent Alert to Slack** and **9b. Create Community Digest Draft in Gmail**.\n\n### Setup\n1. Add your token from [xiaohongshu-rednote-live-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-live-scraper?fpr=939u3w&fp_sid=n8n_io) to the **HTTP Header Auth** credential on node 2.\n2. Edit `actorInput`, `sheetTab`, and `minEngagementScore` in node 1.\n3. Connect **OpenAI**, **Google Sheets**, **Slack**, and **Gmail** credentials.\n\n### Customization\n- Adjust `minEngagementScore` in node 1 or the prompt in node 7.\n- Docs: [https://unitbytes.com/actors/xiaohongshu-rednote-live-scraper/](https://unitbytes.com/actors/xiaohongshu-rednote-live-scraper/)",
+        "content": "## Xiaohongshu (RedNote / 小红书) Live Stream & Commerce Scraper — AI Co-Pilot & Multi-App Pipeline\n\nExtracts fresh data on a schedule with the **[xiaohongshu-rednote-live-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-live-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.0079 / item), skips seen records, logs all rows to **Google Sheets** and **CSV**, and enriches top matches with **OpenAI (`gpt-4o-mini`)** for **Slack** and **Gmail**.\n\n### How it works\n1. **Every 6 Hours** loads rules from **1. Configure Search & Rules**.\n2. **2. Run UnitBytes (xiaohongshu-rednote-live-scraper)** fetches data and **3. Skip Seen Records** deduplicates by `id`.\n3. **4. Clean & Score Items** and **5. Map Export Fields** normalize `roomId, title, nickname, viewersTotalUv` and compute `priorityScore`.\n4. **6a. Log to Google Sheets** and **6b. Export Backup CSV** save all rows, while **6c. Filter High-Priority Items** routes top matches to **7. AI Buying-Intent & Reply Co-Pilot**.\n5. **8. Merge AI Intent & Reply Draft** merges AI fields and triggers **9a. Send Buying-Intent Alert to Slack** and **9b. Create Community Digest Draft in Gmail**.\n\n### Setup\n1. Add your token from [xiaohongshu-rednote-live-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-live-scraper?fpr=939u3w&fp_sid=n8n_io) to the **HTTP Header Auth** credential on node 2 (`Name`: `Authorization`, `Value`: `Bearer <YOUR_APIFY_TOKEN>`).\n2. Edit `actorInput`, `sheetTab`, and `minEngagementScore` in node 1.\n3. Connect **OpenAI**, **Google Sheets**, **Slack**, and **Gmail** credentials.\n\n### Customization\n- Adjust `minEngagementScore` in node 1 or the prompt in node 7.\n- Docs: [https://unitbytes.com/actors/xiaohongshu-rednote-live-scraper/](https://unitbytes.com/actors/xiaohongshu-rednote-live-scraper/)",
         "height": 780,
         "width": 560,
         "color": 1
@@ -108,7 +108,7 @@
             {
               "id": "56eecb22-b55b-5a95-9784-ee243dcf536e",
               "name": "actorInput",
-              "value": "{\"mode\": \"live\", \"liveCategories\": [\"0\"], \"maxItems\": 27, \"includeLiveChat\": true, \"includeAuthorProfile\": false, \"onlyEcommerceLive\": false}",
+              "value": "{\"mode\": \"live\", \"liveCategories\": [\"0\"], \"maxItems\": 5, \"includeLiveChat\": true, \"includeAuthorProfile\": false, \"onlyEcommerceLive\": false}",
               "type": "object"
             },
             {
@@ -159,7 +159,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify($json.actorInput) }}",
+        "jsonBody": "={{ typeof $json.actorInput === 'string' ? $json.actorInput : JSON.stringify($json.actorInput) }}",
         "options": {
           "timeout": 300000
         }
@@ -196,7 +196,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Normalize fields, parse numeric metrics, and score items for Slack alerts\nconst config = $('1. Configure Search & Rules').first().json;\nconst threshold = Number(config.minEngagementScore ?? 50);\nconst keywordFilter = String(config.priorityKeyword || '').trim().toLowerCase();\nconst primaryKeys = [\"roomId\", \"title\", \"nickname\", \"viewersTotalUv\", \"likedCount\", \"url\"];\n\nreturn $input.all().map((item) => {\n  const raw = item.json || {};\n  const cleaned = { ...raw };\n\n  for (const k of primaryKeys) {\n    if (typeof cleaned[k] === 'string') {\n      cleaned[k] = cleaned[k].replace(/\\s+/g, ' ').trim();\n    }\n  }\n\n  const recordId = String(cleaned.id || cleaned.id || cleaned.url || '');\n  const titleText = String(cleaned.title || cleaned.query || cleaned.business_name || cleaned.place_name || cleaned.placeName || cleaned.shopName || cleaned.reviewer_name || cleaned.contributor_name || cleaned.content || cleaned.body || cleaned.keyword || cleaned.original_keyword || cleaned.name || cleaned.sellerNick || recordId).slice(0, 180);\n  const itemUrl = String(cleaned.url || cleaned.review_url || cleaned.review_permalink || cleaned.photoUrl || cleaned.noteUrl || cleaned.shopUrl || cleaned.place_url || cleaned.google_maps_url || cleaned.website || cleaned.productUrl || cleaned.taobaoUrl || cleaned.resolved_url || cleaned.input_url || cleaned.contributor_url || '');\n  const rawMetric = cleaned.price ?? cleaned.promotionPrice ?? cleaned.priceMin ?? cleaned.score ?? cleaned.likedCount ?? cleaned.likeCount ?? cleaned.value ?? cleaned.volume ?? cleaned.rating ?? cleaned.review_stars ?? cleaned.dsrDescription ?? cleaned.lead_score ?? 0;\n  const numericValue = Number(String(rawMetric).replace(/[^0-9.-]/g, '')) || 0;\n\n  let priorityScore = 50;\n  let isHighPriority = false;\n  const mode = 'engagement';\n\n  if (mode === 'price_deal') {\n    if (numericValue > 0 && numericValue <= threshold) {\n      priorityScore = Math.min(100, Math.round(70 + ((threshold - numericValue) / Math.max(threshold, 1)) * 30));\n      isHighPriority = true;\n    }\n  } else if (mode === 'review_sentiment') {\n    const stars = Number(cleaned.review_stars ?? cleaned.stars ?? cleaned.rating ?? numericValue);\n    if (cleaned.is_removed === true || cleaned.is_edited === true || cleaned.status === 'REMOVED' || (stars > 0 && stars <= threshold)) {\n      priorityScore = 95;\n      isHighPriority = true;\n    }\n  } else if (mode === 'lead_score') {\n    const hasDirectContact = Boolean(cleaned.primary_email || cleaned.phone);\n    if (numericValue >= threshold || hasDirectContact) {\n      priorityScore = Math.min(100, Math.max(numericValue, hasDirectContact ? 85 : 70));\n      isHighPriority = true;\n    }\n  } else if (mode === 'status_audit') {\n    if (cleaned.is_sold === true || cleaned.is_removed === true || cleaned.status === 'SOLD' || (numericValue > 0 && numericValue <= threshold)) {\n      priorityScore = 90;\n      isHighPriority = true;\n    }\n  } else {\n    if (numericValue >= threshold) {\n      priorityScore = Math.min(100, Math.round(70 + Math.min(numericValue / Math.max(threshold, 1), 3) * 10));\n      isHighPriority = true;\n    }\n  }\n\n  if (keywordFilter && titleText.toLowerCase().includes(keywordFilter)) {\n    priorityScore = Math.min(100, priorityScore + 20);\n    isHighPriority = true;\n  }\n\n  return {\n    json: {\n      ...cleaned,\n      recordId,\n      titleText,\n      itemUrl,\n      numericValue,\n      priorityScore,\n      isHighPriority,\n      alertSummary: `${titleText} (Metric: ${numericValue} | Score: ${priorityScore}/100)`,\n      scrapedAt: new Date().toISOString(),\n    },\n  };\n});"
+        "jsCode": "// Normalize fields, parse numeric metrics, and score items for AI enrichment\nconst config = $('1. Configure Search & Rules').first().json;\nconst threshold = Number(config.minEngagementScore !== undefined ? config.minEngagementScore : 50);\nconst keywordFilter = String(config.priorityKeyword || '').trim().toLowerCase();\nconst primaryKeys = [\"roomId\", \"title\", \"nickname\", \"viewersTotalUv\", \"likedCount\", \"url\"];\n\nreturn $input.all().map((item) => {\n  const raw = item.json || {};\n  const cleaned = { ...raw };\n\n  for (const k of primaryKeys) {\n    if (typeof cleaned[k] === 'string') {\n      cleaned[k] = cleaned[k].replace(/\\s+/g, ' ').trim();\n    }\n  }\n\n  const recordId = String(cleaned.id || cleaned.url || '');\n  const titleText = String(cleaned.title || cleaned.nickname || recordId).slice(0, 180);\n  const itemUrl = String(cleaned.url || cleaned.profileUrl || '');\n  const rawMetric = cleaned.score || cleaned.likedCount || cleaned.likeCount || cleaned.followerCount || cleaned.viewersTotalUv || cleaned.dsrDescription || 0;\n  const numericValue = Number(String(rawMetric).replace(/[^0-9.-]/g, '')) || 0;\n\n  let priorityScore = 50;\n  let isHighPriority = false;\n\n  if (numericValue >= threshold) {\n    priorityScore = Math.min(100, Math.round(70 + Math.min(numericValue / Math.max(threshold, 1), 3) * 10));\n    isHighPriority = true;\n  }\n\n  if (keywordFilter && titleText.toLowerCase().includes(keywordFilter)) {\n    priorityScore = Math.min(100, priorityScore + 20);\n    isHighPriority = true;\n  }\n\n  return {\n    json: {\n      ...cleaned,\n      recordId,\n      titleText,\n      itemUrl,\n      numericValue,\n      priorityScore,\n      isHighPriority,\n      alertSummary: titleText + ' (Metric: ' + numericValue + ' | Score: ' + priorityScore + '/100)',\n      scrapedAt: new Date().toISOString(),\n    },\n  };\n});"
       },
       "id": "f3fff8ba-9681-50d4-b0e6-3320ea7a983e",
       "name": "4. Clean & Score Items",
@@ -214,67 +214,67 @@
             {
               "id": "b6a81b10-30fa-56e6-b725-53b9b8e8d22b",
               "name": "roomId",
-              "value": "={{ $json.roomId }}",
+              "value": "={{ $json.roomId !== undefined && $json.roomId !== null ? $json.roomId : '' }}",
               "type": "string"
             },
             {
               "id": "43e3c5eb-6a1d-5427-a9bb-a283b7711877",
               "name": "title",
-              "value": "={{ $json.title }}",
+              "value": "={{ $json.title !== undefined && $json.title !== null ? $json.title : '' }}",
               "type": "string"
             },
             {
               "id": "1a033e62-abc7-5fb0-9a18-bf54882c36d1",
               "name": "nickname",
-              "value": "={{ $json.nickname }}",
+              "value": "={{ $json.nickname !== undefined && $json.nickname !== null ? $json.nickname : '' }}",
               "type": "string"
             },
             {
               "id": "e3b4b5dd-01a5-52a5-8b78-9cb5d973f758",
               "name": "viewersTotalUv",
-              "value": "={{ $json.viewersTotalUv }}",
+              "value": "={{ $json.viewersTotalUv !== undefined && $json.viewersTotalUv !== null ? $json.viewersTotalUv : '' }}",
               "type": "string"
             },
             {
               "id": "bc59bf3f-b7be-5dd4-9b25-e94a56edaf12",
               "name": "likedCount",
-              "value": "={{ $json.likedCount }}",
+              "value": "={{ $json.likedCount !== undefined && $json.likedCount !== null ? $json.likedCount : '' }}",
               "type": "string"
             },
             {
               "id": "8ffc5ef0-8108-55ae-a88b-4db7b1b5b6ac",
               "name": "url",
-              "value": "={{ $json.url }}",
+              "value": "={{ $json.url !== undefined && $json.url !== null ? $json.url : '' }}",
               "type": "string"
             },
             {
               "id": "25649837-1c96-5cbe-97d8-1371e7878e19",
               "name": "numericValue",
-              "value": "={{ $json.numericValue }}",
+              "value": "={{ Number($json.numericValue || 0) }}",
               "type": "number"
             },
             {
               "id": "25e329df-6130-54d1-a4fc-8762c650ebc9",
               "name": "priorityScore",
-              "value": "={{ $json.priorityScore }}",
+              "value": "={{ Number($json.priorityScore || 0) }}",
               "type": "number"
             },
             {
               "id": "3a0e4e18-bcf5-50c3-8725-f99a0ce055a7",
               "name": "isHighPriority",
-              "value": "={{ $json.isHighPriority }}",
+              "value": "={{ Boolean($json.isHighPriority) }}",
               "type": "boolean"
             },
             {
               "id": "6a718bec-dca2-54be-8aa9-3089c9ae5060",
               "name": "alertSummary",
-              "value": "={{ $json.alertSummary }}",
+              "value": "={{ $json.alertSummary !== undefined && $json.alertSummary !== null ? $json.alertSummary : '' }}",
               "type": "string"
             },
             {
               "id": "0887222d-4482-5684-b0a4-7e9fd3773c3e",
               "name": "scrapedAt",
-              "value": "={{ $json.scrapedAt }}",
+              "value": "={{ $json.scrapedAt !== undefined && $json.scrapedAt !== null ? $json.scrapedAt : '' }}",
               "type": "string"
             }
           ]
@@ -308,17 +308,17 @@
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "roomId": "={{ $json.roomId }}",
-            "title": "={{ $json.title }}",
-            "nickname": "={{ $json.nickname }}",
-            "viewersTotalUv": "={{ $json.viewersTotalUv }}",
-            "likedCount": "={{ $json.likedCount }}",
-            "url": "={{ $json.url }}",
-            "numericValue": "={{ $json.numericValue }}",
-            "priorityScore": "={{ $json.priorityScore }}",
-            "isHighPriority": "={{ $json.isHighPriority }}",
-            "alertSummary": "={{ $json.alertSummary }}",
-            "scrapedAt": "={{ $json.scrapedAt }}"
+            "roomId": "={{ $json.roomId !== undefined && $json.roomId !== null ? $json.roomId : '' }}",
+            "title": "={{ $json.title !== undefined && $json.title !== null ? $json.title : '' }}",
+            "nickname": "={{ $json.nickname !== undefined && $json.nickname !== null ? $json.nickname : '' }}",
+            "viewersTotalUv": "={{ $json.viewersTotalUv !== undefined && $json.viewersTotalUv !== null ? $json.viewersTotalUv : '' }}",
+            "likedCount": "={{ $json.likedCount !== undefined && $json.likedCount !== null ? $json.likedCount : '' }}",
+            "url": "={{ $json.url !== undefined && $json.url !== null ? $json.url : '' }}",
+            "numericValue": "={{ $json.numericValue !== undefined && $json.numericValue !== null ? $json.numericValue : '' }}",
+            "priorityScore": "={{ $json.priorityScore !== undefined && $json.priorityScore !== null ? $json.priorityScore : '' }}",
+            "isHighPriority": "={{ $json.isHighPriority !== undefined && $json.isHighPriority !== null ? $json.isHighPriority : '' }}",
+            "alertSummary": "={{ $json.alertSummary !== undefined && $json.alertSummary !== null ? $json.alertSummary : '' }}",
+            "scrapedAt": "={{ $json.scrapedAt !== undefined && $json.scrapedAt !== null ? $json.scrapedAt : '' }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -577,25 +577,25 @@
             {
               "id": "cc2f0559-c87c-55a5-a22e-3d421ae67ba2",
               "name": "aiHeadline",
-              "value": "={{ $json.message?.content?.aiHeadline || $json.aiHeadline || $('6c. Filter High-Priority Items').item.json.titleText }}",
+              "value": "={{ (typeof ($json.message && $json.message.content) === 'string' ? JSON.parse($json.message.content) : (($json.message && $json.message.content) || $json)).aiHeadline || $('6c. Filter High-Priority Items').item.json.titleText }}",
               "type": "string"
             },
             {
               "id": "837a53e3-b352-530e-a586-8a13cff36394",
               "name": "aiVerdict",
-              "value": "={{ $json.message?.content?.aiVerdict || $json.aiVerdict || 'HIGH_PRIORITY' }}",
+              "value": "={{ (typeof ($json.message && $json.message.content) === 'string' ? JSON.parse($json.message.content) : (($json.message && $json.message.content) || $json)).aiVerdict || 'HIGH_PRIORITY' }}",
               "type": "string"
             },
             {
               "id": "6e12b5cf-ba00-5477-8625-4f43cb3c4e08",
               "name": "aiAnalysis",
-              "value": "={{ $json.message?.content?.aiAnalysis || $json.aiAnalysis || '' }}",
+              "value": "={{ (typeof ($json.message && $json.message.content) === 'string' ? JSON.parse($json.message.content) : (($json.message && $json.message.content) || $json)).aiAnalysis || '' }}",
               "type": "string"
             },
             {
               "id": "0f0ede11-7df3-590c-8b1a-b6abc8211c86",
               "name": "aiDraftBody",
-              "value": "={{ $json.message?.content?.aiDraftBody || $json.aiDraftBody || '' }}",
+              "value": "={{ (typeof ($json.message && $json.message.content) === 'string' ? JSON.parse($json.message.content) : (($json.message && $json.message.content) || $json)).aiDraftBody || '' }}",
               "type": "string"
             },
             {
@@ -655,9 +655,7 @@
         "operation": "create",
         "subject": "=[AI Action] {{ $json.aiVerdict }}: {{ $json.aiHeadline }}",
         "message": "={{ $json.aiDraftBody }}\n\n---\nAI Analysis: {{ $json.aiAnalysis }}\nSource Link: {{ $json.itemUrl }}\nPriority Score: {{ $json.priorityScore }}/100",
-        "options": {
-          "sendTo": "={{ $json.recipientEmail }}"
-        }
+        "options": {}
       },
       "credentials": {
         "gmailOAuth2": {
