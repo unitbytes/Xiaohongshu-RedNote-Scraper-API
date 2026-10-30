@@ -3,82 +3,113 @@
   "nodes": [
     {
       "parameters": {
-        "content": "## Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper — AI Co-Pilot & Multi-App Pipeline\n\nExtracts fresh data on a schedule with the **[xiaohongshu-rednote-comments-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.00249 / item), skips seen records, logs all rows to **Google Sheets** and **CSV**, and enriches top matches with **OpenAI (`gpt-4o-mini`)** for **Slack** and **Gmail**.\n\n### How it works\n1. **Every 6 Hours** loads rules from **1. Configure Search & Rules**.\n2. **2. Run UnitBytes (xiaohongshu-rednote-comments-scraper)** fetches data and **3. Skip Seen Records** deduplicates by `id`.\n3. **4. Clean & Score Items** and **5. Map Export Fields** normalize `noteId, authorName, content, likeCount` and compute `priorityScore`.\n4. **6a. Log to Google Sheets** and **6b. Export Backup CSV** save all rows, while **6c. Filter High-Priority Items** routes top matches to **7. AI Buying-Intent & Reply Co-Pilot**.\n5. **8. Merge AI Intent & Reply Draft** merges AI fields and triggers **9a. Send Buying-Intent Alert to Slack** and **9b. Create Community Digest Draft in Gmail**.\n\n### Setup\n1. Add your token from [xiaohongshu-rednote-comments-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io) to the **HTTP Header Auth** credential on node 2 (`Name`: `Authorization`, `Value`: `Bearer <YOUR_APIFY_TOKEN>`).\n2. Edit `actorInput`, `sheetTab`, and `minEngagementScore` in node 1.\n3. Connect **OpenAI**, **Google Sheets**, **Slack**, and **Gmail** credentials.\n\n### Customization\n- Adjust `minEngagementScore` in node 1 or the prompt in node 7.\n- Docs: [https://unitbytes.com/actors/xiaohongshu-comments-scraper/](https://unitbytes.com/actors/xiaohongshu-comments-scraper/)",
-        "height": 780,
-        "width": 560,
-        "color": 1
+        "content": "## Analyze Xiaohongshu (RedNote) comments with OpenAI to Google Sheets, Gmail, and Slack\n\n### How it works\n\nThis workflow runs every six hours to extract fresh records through the **[xiaohongshu-rednote-comments-scraper](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io)** UnitBytes Apify actor ($0.00249 / item), remove previously seen items by `id`, and normalize and score the dataset (`noteId, authorName, content, likeCount`). It maps the cleaned fields for export, logs all rows to **Google Sheets**, creates a backup **CSV** file, and sends only high-priority records into **OpenAI (`gpt-4o-mini`)** for structured analysis and action drafting. The enriched fields are then merged and delivered to **Slack** and **Gmail**.\n\n### Setup steps\n\n- Configure the schedule interval in **When Every 6 Hours** if six hours is not ideal for your cadence.\n- Add your Apify API token from [xiaohongshu-rednote-comments-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io) (`Authorization: Bearer <YOUR_APIFY_TOKEN>`) in **Post to Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper API** and confirm `actorInput` in **Set Search Parameters**.\n- Connect **Google Sheets** credentials in **Append Data to Sheets** and select your destination spreadsheet.\n- Configure **OpenAI** credentials in **AI Buying-Intent and Reply Co-Pilot** and review the `gpt-4o-mini` system prompt.\n- Connect **Slack** and **Gmail** credentials on the final delivery nodes.\n- Review `minEngagementScore` and `priorityKeyword` in **Set Search Parameters** before activating.\n\n### Customization\n\nAdjust `actorInput`, `minEngagementScore`, `priorityKeyword`, the OpenAI prompt, Slack message formatting, and Gmail template fields to match your workflow. Full schema and input docs: [https://unitbytes.com/actors/xiaohongshu-comments-scraper/](https://unitbytes.com/actors/xiaohongshu-comments-scraper/)",
+        "width": 480,
+        "height": 896
       },
       "id": "1378cb9a-f456-5338-b595-d53a9f166ad4",
-      "name": "Overview",
+      "name": "Sticky Note",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -640,
-        -80
+        -560,
+        -288
       ]
     },
     {
       "parameters": {
-        "content": "## 1. Schedule & Search Settings\nTriggers on schedule and sets target search parameters, Google Sheets tab, and alert thresholds.",
-        "height": 380,
-        "width": 440,
+        "content": "## Schedule search rules\n\nStarts the workflow on a six-hour schedule and defines the search input, destination sheet tab, scoring threshold, and priority keyword rules used downstream.",
+        "width": 416,
+        "height": 336,
         "color": 7
       },
       "id": "6fae1aad-d119-5719-be13-b85615706a8f",
-      "name": "Section 1 — Schedule & Settings",
+      "name": "Sticky Note1",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
         0,
-        60
+        48
       ]
     },
     {
       "parameters": {
-        "content": "## 2. Extract & Deduplicate\nRuns the UnitBytes Apify Actor and skips records already processed in previous runs.",
-        "height": 380,
-        "width": 440,
+        "content": "## Scrape and deduplicate\n\nRuns the UnitBytes Apify actor through a synchronous HTTP request and removes records that have already been processed in previous executions.",
+        "width": 416,
+        "height": 320,
         "color": 7
       },
       "id": "3e13cff7-d48b-5b49-aeb4-92b244513076",
-      "name": "Section 2 — Extract & Deduplicate",
+      "name": "Sticky Note2",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        460,
-        60
+        448,
+        64
       ]
     },
     {
       "parameters": {
-        "content": "## 3. Clean, Score & Flatten\nNormalizes fields, parses numeric metrics, and calculates a 0–100 priority score.",
-        "height": 380,
-        "width": 440,
+        "content": "## Clean and map items\n\nNormalizes raw scraper fields, parses numeric metrics, calculates 0–100 priority scores, and maps the cleaned data into export-ready fields.",
+        "width": 416,
+        "height": 336,
         "color": 7
       },
       "id": "3a5c1317-87b3-5117-9de6-3244d4d3b43a",
-      "name": "Section 3 — Clean, Score & Flatten",
+      "name": "Sticky Note3",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        920,
-        60
+        912,
+        48
       ]
     },
     {
       "parameters": {
-        "content": "## 4. Sheets, CSV & AI Co-Pilot\nLogs all rows to Sheets and CSV, enriches high-priority items with OpenAI, and alerts teams.",
-        "height": 740,
-        "width": 980,
+        "content": "## Export and prioritize\n\nBranches the mapped data into persistent outputs by logging to Google Sheets and creating a backup CSV, while filtering the stream down to high-priority items for AI enrichment.",
+        "width": 240,
+        "height": 816,
         "color": 7
       },
       "id": "d31d62b6-a080-5a91-930a-01a84433ae7a",
-      "name": "Section 4 — Sheets, CSV & AI Co-Pilot",
+      "name": "Sticky Note4",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1380,
-        -80
+        1392,
+        -288
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Enrich with OpenAI\n\nUses OpenAI (`gpt-4o-mini`) to analyze high-priority records and merges the AI-generated headline, verdict, analysis, and draft with the original item fields.",
+        "width": 416,
+        "height": 336,
+        "color": 7
+      },
+      "id": "992755bf-1ceb-5caa-94e4-3851c55d4919",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Notify and route actions\n\nDelivers the enriched high-priority insights by posting formatted alerts to Slack and creating ready-to-send outreach drafts or instant alerts.",
+        "width": 240,
+        "height": 640,
+        "color": 7
+      },
+      "id": "6da7eab6-f4ca-54e7-94b8-eeb3b3af248f",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2112,
+        0
       ]
     },
     {
@@ -93,7 +124,7 @@
         }
       },
       "id": "bcec0cca-195c-5bb1-b7c0-e6610f15ee17",
-      "name": "Every 6 Hours",
+      "name": "When Every 6 Hours",
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
@@ -108,7 +139,7 @@
             {
               "id": "68e460d6-8ce6-5094-aaea-835a83d2950c",
               "name": "actorInput",
-              "value": "{\"mode\": \"comments\", \"startUrls\": [{\"url\": \"https://www.xiaohongshu.com/explore/64256e08000000001300575e?xsec_token=example_token_redacted&xsec_source=pc_feed\"}], \"maxCommentsPerNote\": 20, \"maxSubCommentsPerComment\": 5, \"includeSubComments\": true}",
+              "value": "{\"mode\": \"comments\", \"startUrls\": [{\"url\": \"https://www.xiaohongshu.com/explore/660000000000000000000001?xsec_token=example_token_redacted&xsec_source=pc_feed\"}], \"maxCommentsPerNote\": 20, \"maxSubCommentsPerComment\": 5, \"includeSubComments\": true}",
               "type": "object"
             },
             {
@@ -134,7 +165,7 @@
         "options": {}
       },
       "id": "3c25b2e2-83d1-5903-aee5-b027beecb6fa",
-      "name": "1. Configure Search & Rules",
+      "name": "Set Search Parameters",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
@@ -171,7 +202,7 @@
         }
       },
       "id": "095e864d-e4bb-5293-be5f-9207a1db7f72",
-      "name": "2. Run UnitBytes (xiaohongshu-rednote-comments-scraper)",
+      "name": "Post to Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper API",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
@@ -186,7 +217,7 @@
         "options": {}
       },
       "id": "90c8e9af-b3c9-5d2d-816a-221a89c25318",
-      "name": "3. Skip Seen Records",
+      "name": "Deduplicate All Fields",
       "type": "n8n-nodes-base.removeDuplicates",
       "typeVersion": 2,
       "position": [
@@ -196,10 +227,10 @@
     },
     {
       "parameters": {
-        "jsCode": "// Normalize fields, parse numeric metrics, and score items for AI enrichment\nconst config = $('1. Configure Search & Rules').first().json;\nconst threshold = Number(config.minEngagementScore !== undefined ? config.minEngagementScore : 50);\nconst keywordFilter = String(config.priorityKeyword || '').trim().toLowerCase();\nconst primaryKeys = [\"noteId\", \"authorName\", \"content\", \"likeCount\", \"ipLocation\", \"createTime\"];\n\nreturn $input.all().map((item) => {\n  const raw = item.json || {};\n  const cleaned = { ...raw };\n\n  for (const k of primaryKeys) {\n    if (typeof cleaned[k] === 'string') {\n      cleaned[k] = cleaned[k].replace(/\\s+/g, ' ').trim();\n    }\n  }\n\n  const recordId = String(cleaned.id || cleaned.url || '');\n  const titleText = String(cleaned.content || recordId).slice(0, 180);\n  const itemUrl = String(cleaned.noteUrl || '');\n  const rawMetric = cleaned.score || cleaned.likedCount || cleaned.likeCount || cleaned.followerCount || cleaned.viewersTotalUv || cleaned.dsrDescription || 0;\n  const numericValue = Number(String(rawMetric).replace(/[^0-9.-]/g, '')) || 0;\n\n  let priorityScore = 50;\n  let isHighPriority = false;\n\n  if (numericValue >= threshold) {\n    priorityScore = Math.min(100, Math.round(70 + Math.min(numericValue / Math.max(threshold, 1), 3) * 10));\n    isHighPriority = true;\n  }\n\n  if (keywordFilter && titleText.toLowerCase().includes(keywordFilter)) {\n    priorityScore = Math.min(100, priorityScore + 20);\n    isHighPriority = true;\n  }\n\n  return {\n    json: {\n      ...cleaned,\n      recordId,\n      titleText,\n      itemUrl,\n      numericValue,\n      priorityScore,\n      isHighPriority,\n      alertSummary: titleText + ' (Metric: ' + numericValue + ' | Score: ' + priorityScore + '/100)',\n      scrapedAt: new Date().toISOString(),\n    },\n  };\n});"
+        "jsCode": "// Normalize fields, parse numeric metrics, and score items for AI enrichment\nconst config = $('Set Search Parameters').first().json;\nconst threshold = Number(config.minEngagementScore !== undefined ? config.minEngagementScore : 50);\nconst keywordFilter = String(config.priorityKeyword || '').trim().toLowerCase();\nconst primaryKeys = [\"noteId\", \"authorName\", \"content\", \"likeCount\", \"ipLocation\", \"createTime\"];\n\nreturn $input.all().map((item) => {\n  const raw = item.json || {};\n  const cleaned = { ...raw };\n\n  for (const k of primaryKeys) {\n    if (typeof cleaned[k] === 'string') {\n      cleaned[k] = cleaned[k].replace(/\\s+/g, ' ').trim();\n    }\n  }\n\n  const recordId = String(cleaned.id || cleaned.url || '');\n  const titleText = String(cleaned.content || recordId).slice(0, 180);\n  const itemUrl = String(cleaned.noteUrl || '');\n  const rawMetric = cleaned.score || cleaned.likedCount || cleaned.likeCount || cleaned.followerCount || cleaned.viewersTotalUv || cleaned.dsrDescription || (String(cleaned.compensation || '').match(/\\d[\\d,]*/) || [1])[0] || 0;\n  const numericValue = Number(String(rawMetric).replace(/[^0-9.-]/g, '')) || 0;\n\n  let priorityScore = 50;\n  let isHighPriority = false;\n\n  if (numericValue >= threshold) {\n    priorityScore = Math.min(100, Math.round(70 + Math.min(numericValue / Math.max(threshold, 1), 3) * 10));\n    isHighPriority = true;\n  }\n\n  if (keywordFilter && titleText.toLowerCase().includes(keywordFilter)) {\n    priorityScore = Math.min(100, priorityScore + 20);\n    isHighPriority = true;\n  }\n\n  return {\n    json: {\n      ...cleaned,\n      recordId,\n      titleText,\n      itemUrl,\n      numericValue,\n      priorityScore,\n      isHighPriority,\n      alertSummary: titleText + ' (Metric: ' + numericValue + ' | Score: ' + priorityScore + '/100)',\n      scrapedAt: new Date().toISOString(),\n    },\n  };\n});"
       },
       "id": "f653e1d5-cc71-5726-91f6-5b18ab38100f",
-      "name": "4. Clean & Score Items",
+      "name": "Normalize and Score Items",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
@@ -283,7 +314,7 @@
         "options": {}
       },
       "id": "7d2b4eba-de8b-5918-ab32-88dd022980df",
-      "name": "5. Map Export Fields",
+      "name": "Prepare Export Fields",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
@@ -303,7 +334,7 @@
         "sheetName": {
           "__rl": true,
           "mode": "name",
-          "value": "={{ $('1. Configure Search & Rules').first().json.sheetTab }}"
+          "value": "={{ $('Set Search Parameters').first().json.sheetTab }}"
         },
         "columns": {
           "mappingMode": "defineBelow",
@@ -434,7 +465,7 @@
         }
       },
       "id": "a8385eb2-656f-5ab3-b5a2-6a1061037eff",
-      "name": "6a. Log to Google Sheets",
+      "name": "Append Data to Sheets",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
@@ -450,7 +481,7 @@
         }
       },
       "id": "ace2ea6c-0d8b-5518-9cec-df08a64f164a",
-      "name": "6b. Export Backup CSV",
+      "name": "Export to CSV File",
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
@@ -484,7 +515,7 @@
         "options": {}
       },
       "id": "511ede72-9551-5f94-9aff-360ac374c691",
-      "name": "6c. Filter High-Priority Items",
+      "name": "Filter High-Priority Posts",
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
@@ -526,12 +557,12 @@
         }
       },
       "id": "71b0ca3e-25a1-54a6-bee5-b43cc92636ec",
-      "name": "7. AI Buying-Intent & Reply Co-Pilot",
+      "name": "AI Buying-Intent and Reply Co-Pilot",
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 1.8,
       "position": [
-        1660,
-        360
+        1712,
+        368
       ]
     },
     {
@@ -541,43 +572,43 @@
             {
               "id": "af80dcf0-4931-5da8-807f-c302f82cb00b",
               "name": "recordId",
-              "value": "={{ $('6c. Filter High-Priority Items').item.json.recordId }}",
+              "value": "={{ $('Filter High-Priority Posts').item.json.recordId }}",
               "type": "string"
             },
             {
               "id": "4f38bfd8-f405-5ef9-aa7a-3779ba77eacd",
               "name": "titleText",
-              "value": "={{ $('6c. Filter High-Priority Items').item.json.titleText }}",
+              "value": "={{ $('Filter High-Priority Posts').item.json.titleText }}",
               "type": "string"
             },
             {
               "id": "94b7d805-d773-5daf-b948-9f2ad5f56ca3",
               "name": "itemUrl",
-              "value": "={{ $('6c. Filter High-Priority Items').item.json.itemUrl }}",
+              "value": "={{ $('Filter High-Priority Posts').item.json.itemUrl }}",
               "type": "string"
             },
             {
               "id": "bdb933ba-d865-531b-8e92-e23417420401",
               "name": "numericValue",
-              "value": "={{ $('6c. Filter High-Priority Items').item.json.numericValue }}",
+              "value": "={{ $('Filter High-Priority Posts').item.json.numericValue }}",
               "type": "number"
             },
             {
               "id": "6bc7a7da-305f-529f-8796-e0357657ef7b",
               "name": "priorityScore",
-              "value": "={{ $('6c. Filter High-Priority Items').item.json.priorityScore }}",
+              "value": "={{ $('Filter High-Priority Posts').item.json.priorityScore }}",
               "type": "number"
             },
             {
               "id": "62daff4e-9a17-5650-bf0c-bc93c4d0cbcb",
               "name": "recipientEmail",
-              "value": "={{ $('6c. Filter High-Priority Items').item.json.primary_email || '' }}",
+              "value": "={{ $('Filter High-Priority Posts').item.json.primary_email || '' }}",
               "type": "string"
             },
             {
               "id": "cea05efd-2c1f-5fcc-b564-84e079a868b3",
               "name": "aiHeadline",
-              "value": "={{ (typeof ($json.message && $json.message.content) === 'string' ? JSON.parse($json.message.content) : (($json.message && $json.message.content) || $json)).aiHeadline || $('6c. Filter High-Priority Items').item.json.titleText }}",
+              "value": "={{ (typeof ($json.message && $json.message.content) === 'string' ? JSON.parse($json.message.content) : (($json.message && $json.message.content) || $json)).aiHeadline || $('Filter High-Priority Posts').item.json.titleText }}",
               "type": "string"
             },
             {
@@ -601,7 +632,7 @@
             {
               "id": "c485f6d4-e96a-5326-9ff9-dae0ec10cc21",
               "name": "scrapedAt",
-              "value": "={{ $('6c. Filter High-Priority Items').item.json.scrapedAt }}",
+              "value": "={{ $('Filter High-Priority Posts').item.json.scrapedAt }}",
               "type": "string"
             }
           ]
@@ -609,12 +640,12 @@
         "options": {}
       },
       "id": "6d6b3f86-fe5d-5fe7-a797-e2de412cfa68",
-      "name": "8. Merge AI Intent & Reply Draft",
+      "name": "Merge Final Intent and Reply Fields",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1890,
-        360
+        1936,
+        368
       ]
     },
     {
@@ -641,12 +672,12 @@
         }
       },
       "id": "f7bc0313-4711-5493-b0db-cb358354bb4a",
-      "name": "9a. Send Buying-Intent Alert to Slack",
+      "name": "Post Buying-Intent Alert to Slack",
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.3,
       "position": [
-        2120,
-        260
+        2160,
+        256
       ]
     },
     {
@@ -664,124 +695,124 @@
         }
       },
       "id": "b70e9f36-25c7-5f0e-801c-b23f7c943174",
-      "name": "9b. Create Community Digest Draft in Gmail",
+      "name": "Draft Community Digest in Gmail",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        2120,
+        2160,
         480
       ]
     }
   ],
   "connections": {
-    "Every 6 Hours": {
+    "When Every 6 Hours": {
       "main": [
         [
           {
-            "node": "1. Configure Search & Rules",
+            "node": "Set Search Parameters",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "1. Configure Search & Rules": {
+    "Set Search Parameters": {
       "main": [
         [
           {
-            "node": "2. Run UnitBytes (xiaohongshu-rednote-comments-scraper)",
+            "node": "Post to Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper API",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "2. Run UnitBytes (xiaohongshu-rednote-comments-scraper)": {
+    "Post to Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper API": {
       "main": [
         [
           {
-            "node": "3. Skip Seen Records",
+            "node": "Deduplicate All Fields",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "3. Skip Seen Records": {
+    "Deduplicate All Fields": {
       "main": [
         [
           {
-            "node": "4. Clean & Score Items",
+            "node": "Normalize and Score Items",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "4. Clean & Score Items": {
+    "Normalize and Score Items": {
       "main": [
         [
           {
-            "node": "5. Map Export Fields",
+            "node": "Prepare Export Fields",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "5. Map Export Fields": {
+    "Prepare Export Fields": {
       "main": [
         [
           {
-            "node": "6a. Log to Google Sheets",
+            "node": "Append Data to Sheets",
             "type": "main",
             "index": 0
           },
           {
-            "node": "6b. Export Backup CSV",
+            "node": "Export to CSV File",
             "type": "main",
             "index": 0
           },
           {
-            "node": "6c. Filter High-Priority Items",
+            "node": "Filter High-Priority Posts",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "6c. Filter High-Priority Items": {
+    "Filter High-Priority Posts": {
       "main": [
         [
           {
-            "node": "7. AI Buying-Intent & Reply Co-Pilot",
+            "node": "AI Buying-Intent and Reply Co-Pilot",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "7. AI Buying-Intent & Reply Co-Pilot": {
+    "AI Buying-Intent and Reply Co-Pilot": {
       "main": [
         [
           {
-            "node": "8. Merge AI Intent & Reply Draft",
+            "node": "Merge Final Intent and Reply Fields",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "8. Merge AI Intent & Reply Draft": {
+    "Merge Final Intent and Reply Fields": {
       "main": [
         [
           {
-            "node": "9a. Send Buying-Intent Alert to Slack",
+            "node": "Post Buying-Intent Alert to Slack",
             "type": "main",
             "index": 0
           },
           {
-            "node": "9b. Create Community Digest Draft in Gmail",
+            "node": "Draft Community Digest in Gmail",
             "type": "main",
             "index": 0
           }

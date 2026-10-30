@@ -327,7 +327,7 @@ The fastest and most affordable Xiaohongshu (RedNote / 小红书 / XHS) comments
 | Parameter | Type | Default / Prefill | Description |
 | :--- | :---: | :--- | :--- |
 | `mode` | `string` | `comments` | Choose between Post Comments & Replies or Real-Time Live Stream Chat. |
-| `startUrls` | `array` | `[{"url": "https://www.xiaohongshu.com/explore/64` | Paste one or more Xiaohongshu Post URLs (with ?xsec_token=... or xhslink.com/...) or Live Room URLs. Tip: If you add your own URLs here, the prefilled demo URL is automatically ignored. |
+| `startUrls` | `array` | `[{"url": "https://www.xiaohongshu.com/explore/66` | Paste one or more Xiaohongshu Post URLs (with ?xsec_token=... or xhslink.com/...) or Live Room URLs. Tip: If you add your own URLs here, the prefilled demo URL is automatically ignored. |
 | `channels` | `array` | — | Optional: Select one or more Xiaohongshu categories to automatically sweep comments across trending posts in those categories. |
 | `maxCommentsPerNote` | `integer` | `20` | Maximum comments to extract per post (up to ~20–25 top Page-1 hot comments + nested replies per post in cookie-free mode, or up to 2,000 comments across Category Sweeps / Live Chat). |
 | `includeSubComments` | `boolean` | `True` | Extract nested inline replies under top-level comments. |
@@ -348,7 +348,7 @@ run_input = {
     "mode": "comments",
     "startUrls": [
         {
-            "url": "https://www.xiaohongshu.com/explore/64256e08000000001300575e?xsec_token=example_token_redacted&xsec_source=pc_feed"
+            "url": "https://www.xiaohongshu.com/explore/660000000000000000000001?xsec_token=example_token_redacted&xsec_source=pc_feed"
         }
     ],
     "maxCommentsPerNote": 20,

@@ -24,7 +24,7 @@ run_input = {
     "mode": "comments",
     "startUrls": [
         {
-            "url": "https://www.xiaohongshu.com/explore/64256e08000000001300575e?xsec_token=example_token_redacted&xsec_source=pc_feed"
+            "url": "https://www.xiaohongshu.com/explore/660000000000000000000001?xsec_token=example_token_redacted&xsec_source=pc_feed"
         }
     ],
     "maxCommentsPerNote": 20,
