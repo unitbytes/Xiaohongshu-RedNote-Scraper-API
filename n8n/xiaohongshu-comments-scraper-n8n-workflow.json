@@ -1,10 +1,10 @@
 {
-  "name": "Extract and score Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper data to Google Sheets, CSV, and Slack with Apify",
+  "name": "Analyze Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper buying intent with OpenAI to Google Sheets, Gmail, and Slack",
   "nodes": [
     {
       "parameters": {
-        "content": "## Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper — Automated Sheets, CSV & Slack Pipeline\n\nBuilt for market research, e-commerce, and growth teams. This workflow runs on a schedule to extract fresh data with the **[xiaohongshu-rednote-comments-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.00249 / item), skips previously seen records, scores each item, logs results to **Google Sheets** and **CSV**, and posts **Slack** alerts for top matches.\n\n### How it works\n1. **Every 6 Hours** triggers the run and loads search settings from **1. Configure Search & Rules**.\n2. **2. Run UnitBytes (xiaohongshu-rednote-comments-scraper)** executes the actor via Apify's synchronous endpoint.\n3. **3. Skip Seen Records** deduplicates items by `id` across runs.\n4. **4. Clean & Score Items** and **5. Map Export Fields** normalize fields (`noteId, authorName, content, likeCount, ipLocation`) and compute a 0–100 `priorityScore`.\n5. **6a. Log to Google Sheets** and **6b. Export Backup CSV** store all rows, while **6c. Filter High-Priority Items** sends top matches to **7. Send Slack Alert**.\n\n### Setup\n1. Copy your API token from [xiaohongshu-rednote-comments-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io) into the **HTTP Header Auth** credential (`Authorization: Bearer <TOKEN>`) on node 2.\n2. Edit `actorInput`, `sheetTab`, and `minEngagementScore` in **1. Configure Search & Rules**.\n3. Connect **Google Sheets** and **Slack** credentials (or test immediately via CSV export).\n\n### Customization\n- Tune `minEngagementScore` or `priorityKeyword` in node 1 to adjust Slack alert sensitivity.\n- Full schema reference: [https://unitbytes.com/actors/xiaohongshu-comments-scraper/](https://unitbytes.com/actors/xiaohongshu-comments-scraper/)",
-        "height": 760,
+        "content": "## Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper — AI Co-Pilot & Multi-App Pipeline\n\nExtracts fresh data on a schedule with the **[xiaohongshu-rednote-comments-scraper Apify Actor](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io)** ($0.00249 / item), skips seen records, logs all rows to **Google Sheets** and **CSV**, and enriches top matches with **OpenAI (`gpt-4o-mini`)** for **Slack** and **Gmail**.\n\n### How it works\n1. **Every 6 Hours** loads rules from **1. Configure Search & Rules**.\n2. **2. Run UnitBytes (xiaohongshu-rednote-comments-scraper)** fetches data and **3. Skip Seen Records** deduplicates by `id`.\n3. **4. Clean & Score Items** and **5. Map Export Fields** normalize `noteId, authorName, content, likeCount` and compute `priorityScore`.\n4. **6a. Log to Google Sheets** and **6b. Export Backup CSV** save all rows, while **6c. Filter High-Priority Items** routes top matches to **7. AI Buying-Intent & Reply Co-Pilot**.\n5. **8. Merge AI Intent & Reply Draft** merges AI fields and triggers **9a. Send Buying-Intent Alert to Slack** and **9b. Create Community Digest Draft in Gmail**.\n\n### Setup\n1. Add your token from [xiaohongshu-rednote-comments-scraper on Apify Store](https://apify.com/unitbytes/xiaohongshu-rednote-comments-scraper?fpr=939u3w&fp_sid=n8n_io) to the **HTTP Header Auth** credential on node 2.\n2. Edit `actorInput`, `sheetTab`, and `minEngagementScore` in node 1.\n3. Connect **OpenAI**, **Google Sheets**, **Slack**, and **Gmail** credentials.\n\n### Customization\n- Adjust `minEngagementScore` in node 1 or the prompt in node 7.\n- Docs: [https://unitbytes.com/actors/xiaohongshu-comments-scraper/](https://unitbytes.com/actors/xiaohongshu-comments-scraper/)",
+        "height": 780,
         "width": 560,
         "color": 1
       },
@@ -67,13 +67,13 @@
     },
     {
       "parameters": {
-        "content": "## 4. Sync to Sheets, CSV & Slack\nLogs all new records to Google Sheets and CSV, and routes high-priority matches to Slack.",
-        "height": 660,
-        "width": 540,
+        "content": "## 4. Sheets, CSV & AI Co-Pilot\nLogs all rows to Sheets and CSV, enriches high-priority items with OpenAI, and alerts teams.",
+        "height": 740,
+        "width": 980,
         "color": 7
       },
       "id": "d31d62b6-a080-5a91-930a-01a84433ae7a",
-      "name": "Section 4 — Sheets, CSV & Slack",
+      "name": "Section 4 — Sheets, CSV & AI Co-Pilot",
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
@@ -494,6 +494,131 @@
     },
     {
       "parameters": {
+        "resource": "text",
+        "operation": "message",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are a community growth strategist and social listening analyst. Analyze the scraped social post or comment (translate from Chinese to English if needed) and return a JSON object with exactly 4 keys: \"aiHeadline\" (English summary of the post title or topic), \"aiVerdict\" (one of: HIGH_BUYING_INTENT, COMPETITOR_PAIN_POINT, VIRAL_TREND, GENERAL_DISCUSSION), \"aiAnalysis\" (1-sentence breakdown of user pain points, product mentions, and commercial intent), and \"aiDraftBody\" (a helpful, non-promotional community reply draft that answers the user's question first).",
+              "role": "system"
+            },
+            {
+              "content": "=Community Post ({{ $json.recordId }}):\nTitle / Content: {{ $json.titleText }}\nEngagement Metric: {{ $json.numericValue }} (Priority: {{ $json.priorityScore }}/100)\nURL: {{ $json.itemUrl }}\nRaw Payload Summary: {{ JSON.stringify($json).slice(0, 1200) }}",
+              "role": "user"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "credentials": {
+        "openAiApi": {
+          "id": "38607d58-01f6-572b-ab8d-7565c1d5beff",
+          "name": "OpenAI account"
+        }
+      },
+      "id": "71b0ca3e-25a1-54a6-bee5-b43cc92636ec",
+      "name": "7. AI Buying-Intent & Reply Co-Pilot",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1660,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "af80dcf0-4931-5da8-807f-c302f82cb00b",
+              "name": "recordId",
+              "value": "={{ $('6c. Filter High-Priority Items').item.json.recordId }}",
+              "type": "string"
+            },
+            {
+              "id": "4f38bfd8-f405-5ef9-aa7a-3779ba77eacd",
+              "name": "titleText",
+              "value": "={{ $('6c. Filter High-Priority Items').item.json.titleText }}",
+              "type": "string"
+            },
+            {
+              "id": "94b7d805-d773-5daf-b948-9f2ad5f56ca3",
+              "name": "itemUrl",
+              "value": "={{ $('6c. Filter High-Priority Items').item.json.itemUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "bdb933ba-d865-531b-8e92-e23417420401",
+              "name": "numericValue",
+              "value": "={{ $('6c. Filter High-Priority Items').item.json.numericValue }}",
+              "type": "number"
+            },
+            {
+              "id": "6bc7a7da-305f-529f-8796-e0357657ef7b",
+              "name": "priorityScore",
+              "value": "={{ $('6c. Filter High-Priority Items').item.json.priorityScore }}",
+              "type": "number"
+            },
+            {
+              "id": "62daff4e-9a17-5650-bf0c-bc93c4d0cbcb",
+              "name": "recipientEmail",
+              "value": "={{ $('6c. Filter High-Priority Items').item.json.primary_email || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "cea05efd-2c1f-5fcc-b564-84e079a868b3",
+              "name": "aiHeadline",
+              "value": "={{ $json.message?.content?.aiHeadline || $json.aiHeadline || $('6c. Filter High-Priority Items').item.json.titleText }}",
+              "type": "string"
+            },
+            {
+              "id": "bb95fd1d-19be-5190-9968-d555d91aa26e",
+              "name": "aiVerdict",
+              "value": "={{ $json.message?.content?.aiVerdict || $json.aiVerdict || 'HIGH_PRIORITY' }}",
+              "type": "string"
+            },
+            {
+              "id": "158b0266-0ea9-5047-816b-63aeb1d8185f",
+              "name": "aiAnalysis",
+              "value": "={{ $json.message?.content?.aiAnalysis || $json.aiAnalysis || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "74c32206-a3e8-55cb-9e0b-c7b7b83d7a18",
+              "name": "aiDraftBody",
+              "value": "={{ $json.message?.content?.aiDraftBody || $json.aiDraftBody || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "c485f6d4-e96a-5326-9ff9-dae0ec10cc21",
+              "name": "scrapedAt",
+              "value": "={{ $('6c. Filter High-Priority Items').item.json.scrapedAt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6d6b3f86-fe5d-5fe7-a797-e2de412cfa68",
+      "name": "8. Merge AI Intent & Reply Draft",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1890,
+        360
+      ]
+    },
+    {
+      "parameters": {
         "resource": "message",
         "operation": "post",
         "select": "channel",
@@ -503,7 +628,7 @@
           "value": ""
         },
         "messageType": "text",
-        "text": "=:bell: *New High-Priority Match (Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper)*\n*<{{ $json.itemUrl }}|{{ $json.titleText }}>*\n• *Priority Score:* {{ $json.priorityScore }}/100 ({{ $json.numericValue }})\n• *Record ID:* `{{ $json.recordId }}`\n• *Scraped At:* {{ $json.scrapedAt }}",
+        "text": "=:robot_face: *AI Co-Pilot Match (Xiaohongshu (RedNote / 小红书) Comments & Live Chat Scraper)*\n*<{{ $json.itemUrl }}|{{ $json.aiHeadline }}>*\n• *AI Verdict:* `{{ $json.aiVerdict }}` | *Priority Score:* {{ $json.priorityScore }}/100 (Metric: {{ $json.numericValue }})\n• *AI Analysis:* {{ $json.aiAnalysis }}\n• *Suggested Action / Draft:* {{ $json.aiDraftBody }}\n• *Record ID:* `{{ $json.recordId }}`",
         "otherOptions": {
           "includeLinkToWorkflow": false,
           "unfurl_links": false
@@ -516,12 +641,37 @@
         }
       },
       "id": "f7bc0313-4711-5493-b0db-cb358354bb4a",
-      "name": "7. Send Slack Alert",
+      "name": "9a. Send Buying-Intent Alert to Slack",
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.3,
       "position": [
-        1680,
-        360
+        2120,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "draft",
+        "operation": "create",
+        "subject": "=[AI Action] {{ $json.aiVerdict }}: {{ $json.aiHeadline }}",
+        "message": "={{ $json.aiDraftBody }}\n\n---\nAI Analysis: {{ $json.aiAnalysis }}\nSource Link: {{ $json.itemUrl }}\nPriority Score: {{ $json.priorityScore }}/100",
+        "options": {
+          "sendTo": "={{ $json.recipientEmail }}"
+        }
+      },
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "3f9501e5-e668-5a63-9b3e-2969fb1a7175",
+          "name": "Gmail account"
+        }
+      },
+      "id": "b70e9f36-25c7-5f0e-801c-b23f7c943174",
+      "name": "9b. Create Community Digest Draft in Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        2120,
+        480
       ]
     }
   ],
@@ -606,7 +756,34 @@
       "main": [
         [
           {
-            "node": "7. Send Slack Alert",
+            "node": "7. AI Buying-Intent & Reply Co-Pilot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "7. AI Buying-Intent & Reply Co-Pilot": {
+      "main": [
+        [
+          {
+            "node": "8. Merge AI Intent & Reply Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "8. Merge AI Intent & Reply Draft": {
+      "main": [
+        [
+          {
+            "node": "9a. Send Buying-Intent Alert to Slack",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "9b. Create Community Digest Draft in Gmail",
             "type": "main",
             "index": 0
           }
@@ -624,13 +801,16 @@
   },
   "tags": [
     {
+      "name": "AI"
+    },
+    {
+      "name": "OpenAI"
+    },
+    {
       "name": "Web Scraping"
     },
     {
       "name": "Apify"
-    },
-    {
-      "name": "UnitBytes"
     },
     {
       "name": "APAC E-Commerce & Social"

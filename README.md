@@ -10,7 +10,7 @@
 
 **Cookieless Xiaohongshu (小红书 / RedNote) 5-Engine Data Extraction Suite on Apify. Extract trending viral notes, unwatermarked HD videos & image galleries, KOL creator portfolios, nested comment trees with buyer-intent tags, and real-time e-commerce live rooms with zero login or cookies required.**
 
-[**🚀 Try Live on Apify**](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=gh_xhs) • [**📓 Open in Google Colab**](https://colab.research.google.com/github/unitbytes/Xiaohongshu-RedNote-Scraper-API/blob/main/notebooks/quickstart.ipynb) • [**⚡ Official n8n Creator Hub**](https://n8n.io/creators/unitbytes/) • [**🔧 39 Free n8n Templates**](https://unitbytes.com/n8n/) • [**📖 Documentation & Schemas**](https://unitbytes.com/actors/) • [**📚 Engineering Playbooks**](https://unitbytes.com/blog/)
+[**🚀 Try Live on Apify**](https://apify.com/unitbytes/xiaohongshu-rednote-trend-scraper?fpr=939u3w&fp_sid=gh_xhs) • [**📓 Open in Google Colab**](https://colab.research.google.com/github/unitbytes/Xiaohongshu-RedNote-Scraper-API/blob/main/notebooks/quickstart.ipynb) • [**⚡ Official n8n Creator Hub**](https://n8n.io/creators/unitbytes/) • [**🔧 41 Free n8n Templates**](https://unitbytes.com/n8n/) • [**📖 Documentation & Schemas**](https://unitbytes.com/actors/) • [**📚 Engineering Playbooks**](https://unitbytes.com/blog/)
 
 </div>
 
@@ -47,7 +47,7 @@ This repository contains ready-to-run **Python SDK scripts**, an **interactive 1
 
 - 📓 **1-Click Interactive Google Colab Notebook:** Open [`notebooks/quickstart.ipynb`](notebooks/quickstart.ipynb) directly in your browser via [**Google Colab ↗**](https://colab.research.google.com/github/unitbytes/Xiaohongshu-RedNote-Scraper-API/blob/main/notebooks/quickstart.ipynb) to inspect sample DataFrames and test live API queries with zero local setup.
 - 🤖 **Cursor, Windsurf & Claude Code MCP Ready:** Includes [`.cursor/mcp.json`](.cursor/mcp.json) pre-configured with `https://mcp.apify.com` so AI coding agents can invoke these UnitBytes scrapers natively.
-- 💡 **Using n8n?** Explore our official creator profile at **[n8n.io/creators/unitbytes](https://n8n.io/creators/unitbytes/)** or copy all 39 pre-built 9-node scraping workflows (`Ctrl+V`) at **[unitbytes.com/n8n](https://unitbytes.com/n8n/)**.
+- 💡 **Using n8n?** Explore our official creator profile at **[n8n.io/creators/unitbytes](https://n8n.io/creators/unitbytes/)** or copy all 41 pre-built 9-node scraping workflows (`Ctrl+V`) at **[unitbytes.com/n8n](https://unitbytes.com/n8n/)**.
 - 📚 **Engineering Playbooks:** [**Social Commerce Playbook**](https://unitbytes.com/blog/how-to-scrape-xiaohongshu-rednote-without-account-guide/) • [**KOL & Influencer Leads Playbook**](https://unitbytes.com/blog/xiaohongshu-live-stream-kol-scraper-api-guide/) — or browse all guides at **[unitbytes.com/blog](https://unitbytes.com/blog/)**.
 <!-- UNITBYTES_REPO_KIT_END -->
 
@@ -195,7 +195,7 @@ Pricing starts at `$0.0022` per extracted item under Apify Pay-Per-Event billing
 
 The complete Xiaohongshu (RedNote / 小红书 / XHS) scraper on Apify. Extract trending category feeds, active live streams & e-commerce chat, creator & KOL leads, comments, and watermark-free HD photos & MP4 videos. 100% cookie-free. MCP & AI Agent ready.
 
-- **Pricing:** `$0.0022 / item` (Pay-Per-Event — `$0.0022` note / post extracted, `$0.005` creator profile intelligence (volume tiers from `$0.0015`))
+- **Pricing:** `$0.0022 / item` (Pay-Per-Event — `$0.0022` note / post extracted, `$0.005` creator profile intelligence, `$0.001` scraped comment (volume tiers from `$0.0007`))
 - **Cloud Console:** [https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=gh_xhs](https://apify.com/unitbytes/xiaohongshu-scraper?fpr=939u3w&fp_sid=gh_xhs)
 - **Full Documentation & Schema:** [https://unitbytes.com/actors/xiaohongshu-scraper/](https://unitbytes.com/actors/xiaohongshu-scraper/)
 - **n8n Workflow File:** [`n8n/xiaohongshu-scraper-n8n-workflow.json`](n8n/xiaohongshu-scraper-n8n-workflow.json)
@@ -719,6 +719,6 @@ Don't want to manage API tokens or scripts? **UnitBytes Data Delivery** provides
 
 - 🌐 **Request a Sample Dataset:** [https://unitbytes.com/#enterprise-intake](https://unitbytes.com/#enterprise-intake)
 - 📧 **Direct Engineering Contact:** [contact@unitbytes.com](mailto:contact@unitbytes.com)
-- ⚡ **Explore All 39 Scrapers:** [https://unitbytes.com/actors/](https://unitbytes.com/actors/)
+- ⚡ **Explore All 41 Scrapers:** [https://unitbytes.com/actors/](https://unitbytes.com/actors/)
 - 📚 **Engineering Playbooks & Guides:** [https://unitbytes.com/blog/](https://unitbytes.com/blog/)
 - 🔗 **Official n8n Creator Profile:** [https://n8n.io/creators/unitbytes/](https://n8n.io/creators/unitbytes/)
